@@ -44,18 +44,18 @@
   <rect x="670" y="91" width="270" height="18" fill="#191724"/>
   <rect x="674" y="95" width="260" height="10" fill="#dea584"/>
   <text class="small" x="920" y="106" text-anchor="end" font-size="15" fill="#f6c177">8</text>
-  <text class="small" x="540" y="140" text-anchor="start" font-size="16" fill="#e0def4">JavaScript</text>
+  <text class="small" x="540" y="140" text-anchor="start" font-size="16" fill="#e0def4">Python</text>
   <rect x="670" y="125" width="270" height="18" fill="#191724"/>
-  <rect x="674" y="129" width="227" height="10" fill="#f7df1e"/>
+  <rect x="674" y="129" width="227" height="10" fill="#ffd343"/>
   <text class="small" x="920" y="140" text-anchor="end" font-size="15" fill="#f6c177">7</text>
-  <text class="small" x="540" y="174" text-anchor="start" font-size="16" fill="#e0def4">Java</text>
+  <text class="small" x="540" y="174" text-anchor="start" font-size="16" fill="#e0def4">JavaScript</text>
   <rect x="670" y="159" width="270" height="18" fill="#191724"/>
-  <rect x="674" y="163" width="227" height="10" fill="#b07219"/>
+  <rect x="674" y="163" width="227" height="10" fill="#f7df1e"/>
   <text class="small" x="920" y="174" text-anchor="end" font-size="15" fill="#f6c177">7</text>
-  <text class="small" x="540" y="208" text-anchor="start" font-size="16" fill="#e0def4">Python</text>
+  <text class="small" x="540" y="208" text-anchor="start" font-size="16" fill="#e0def4">Java</text>
   <rect x="670" y="193" width="270" height="18" fill="#191724"/>
-  <rect x="674" y="197" width="195" height="10" fill="#ffd343"/>
-  <text class="small" x="920" y="208" text-anchor="end" font-size="15" fill="#f6c177">6</text>
+  <rect x="674" y="197" width="227" height="10" fill="#b07219"/>
+  <text class="small" x="920" y="208" text-anchor="end" font-size="15" fill="#f6c177">7</text>
   <text class="small" x="540" y="242" text-anchor="start" font-size="16" fill="#e0def4">Shell</text>
   <rect x="670" y="227" width="270" height="18" fill="#191724"/>
   <rect x="674" y="231" width="130" height="10" fill="#89e051"/>
@@ -65,5 +65,5 @@
   <rect x="674" y="265" width="65" height="10" fill="#e34c26"/>
   <text class="small" x="920" y="276" text-anchor="end" font-size="15" fill="#f6c177">2</text>
   <rect x="540" y="290" width="360" height="32" fill="#191724"/>
-  <text class="small" x="558" y="312" text-anchor="start" font-size="14" fill="#f6c177">SYNC: 05-14 14:55 CST</text>
+  <text class="small" x="558" y="312" text-anchor="start" font-size="14" fill="#f6c177">SYNC: 05-15 04:47 CST</text>
 </svg>
