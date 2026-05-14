@@ -78,12 +78,7 @@ XP  public repos, notes, experiments</code></pre>
 
 <div align="center">
 
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=ld000&theme=gruvbox&show_icons=true&hide_border=true&hide_title=true&count_private=true" alt="GitHub stats" />
-<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ld000&layout=compact&theme=gruvbox&hide_border=true&hide=html,css,scss" alt="Top languages" />
-
-<br />
-
-![activity graph](https://github-readme-activity-graph.vercel.app/graph?username=ld000&theme=gruvbox&hide_border=true&area=true&custom_title=PIXEL%20QUEST%20LOG)
+![ld000 pixel status board](./assets/pixel-status.svg)
 
 </div>
 

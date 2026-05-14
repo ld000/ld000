@@ -5,6 +5,7 @@
 Read all files in context/ - this is your foundation 
 Read MEMORY.md - this is what you've learned over time
 Use both to shape every task
+If don’t have those file, create it.
 
 Memory System
 When I correct you or you learn something new, update the relevant section in MEMORY.md:

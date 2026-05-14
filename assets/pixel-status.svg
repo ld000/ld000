@@ -1,0 +1,69 @@
+<svg width="960" height="360" viewBox="0 0 960 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">ld000 pixel status board</title>
+  <desc id="desc">A dynamic pixel style status board generated from public GitHub profile data.</desc>
+  <style>
+    .label { font-family: "Courier New", monospace; font-weight: 700; }
+    .small { font-family: "Courier New", monospace; font-weight: 700; }
+  </style>
+  <rect x="0" y="0" width="960" height="360" fill="#191724"/>
+  <rect x="14" y="14" width="932" height="332" fill="#1f1d2e"/>
+  <rect x="28" y="28" width="904" height="304" fill="#26233a"/>
+  <rect x="14" y="14" width="932" height="10" fill="#eb6f92"/>
+  <rect x="14" y="336" width="932" height="10" fill="#f6c177"/>
+  <rect x="14" y="14" width="10" height="332" fill="#f6c177"/>
+  <rect x="936" y="14" width="10" height="332" fill="#eb6f92"/>
+  <text class="label" x="54" y="70" text-anchor="start" font-size="28" fill="#f6c177">[ SCORE BOARD ]</text>
+  <text class="small" x="54" y="100" text-anchor="start" font-size="18" fill="#9ccfd8">AUTO-GENERATED PIXEL STATUS</text>
+  <rect x="54" y="124" width="112" height="70" fill="#191724"/>
+  <rect x="62" y="132" width="96" height="54" fill="#1f1d2e"/>
+  <text class="small" x="110" y="154" text-anchor="middle" font-size="16" fill="#9ccfd8">REPOS</text>
+  <text class="label" x="110" y="178" text-anchor="middle" font-size="24" fill="#f6c177">57</text>
+  <rect x="190" y="124" width="112" height="70" fill="#191724"/>
+  <rect x="198" y="132" width="96" height="54" fill="#1f1d2e"/>
+  <text class="small" x="246" y="154" text-anchor="middle" font-size="16" fill="#9ccfd8">STARS</text>
+  <text class="label" x="246" y="178" text-anchor="middle" font-size="24" fill="#f6c177">27</text>
+  <rect x="326" y="124" width="112" height="70" fill="#191724"/>
+  <rect x="334" y="132" width="96" height="54" fill="#1f1d2e"/>
+  <text class="small" x="382" y="154" text-anchor="middle" font-size="16" fill="#9ccfd8">FOLLOWERS</text>
+  <text class="label" x="382" y="178" text-anchor="middle" font-size="24" fill="#f6c177">17</text>
+  <text class="label" x="54" y="228" text-anchor="start" font-size="20" fill="#ebbcba">LATEST QUESTS</text>
+  <rect x="60" y="244" width="12" height="12" fill="#f6c177"/>
+  <text class="small" x="84" y="258" text-anchor="start" font-size="17" fill="#e0def4">blog-hugo</text>
+  <text class="small" x="318" y="258" text-anchor="start" font-size="16" fill="#9ccfd8">SCSS  *0</text>
+  <rect x="60" y="268" width="12" height="12" fill="#6e6a86"/>
+  <text class="small" x="84" y="282" text-anchor="start" font-size="17" fill="#e0def4">pokemind-agent</text>
+  <text class="small" x="318" y="282" text-anchor="start" font-size="16" fill="#9ccfd8">Unknown  *0</text>
+  <rect x="60" y="292" width="12" height="12" fill="#6e6a86"/>
+  <text class="small" x="84" y="306" text-anchor="start" font-size="17" fill="#e0def4">silksong_tutorial</text>
+  <text class="small" x="318" y="306" text-anchor="start" font-size="16" fill="#9ccfd8">GDScript  *0</text>
+  <rect x="60" y="316" width="12" height="12" fill="#6e6a86"/>
+  <text class="small" x="84" y="330" text-anchor="start" font-size="17" fill="#e0def4">dfun</text>
+  <text class="small" x="318" y="330" text-anchor="start" font-size="16" fill="#9ccfd8">Rust  *0</text>
+  <text class="label" x="540" y="70" text-anchor="start" font-size="24" fill="#ebbcba">LANGUAGE MAP</text>
+  <text class="small" x="540" y="106" text-anchor="start" font-size="16" fill="#e0def4">Rust</text>
+  <rect x="670" y="91" width="270" height="18" fill="#191724"/>
+  <rect x="674" y="95" width="260" height="10" fill="#dea584"/>
+  <text class="small" x="920" y="106" text-anchor="end" font-size="15" fill="#f6c177">8</text>
+  <text class="small" x="540" y="140" text-anchor="start" font-size="16" fill="#e0def4">JavaScript</text>
+  <rect x="670" y="125" width="270" height="18" fill="#191724"/>
+  <rect x="674" y="129" width="227" height="10" fill="#f7df1e"/>
+  <text class="small" x="920" y="140" text-anchor="end" font-size="15" fill="#f6c177">7</text>
+  <text class="small" x="540" y="174" text-anchor="start" font-size="16" fill="#e0def4">Java</text>
+  <rect x="670" y="159" width="270" height="18" fill="#191724"/>
+  <rect x="674" y="163" width="227" height="10" fill="#b07219"/>
+  <text class="small" x="920" y="174" text-anchor="end" font-size="15" fill="#f6c177">7</text>
+  <text class="small" x="540" y="208" text-anchor="start" font-size="16" fill="#e0def4">Python</text>
+  <rect x="670" y="193" width="270" height="18" fill="#191724"/>
+  <rect x="674" y="197" width="195" height="10" fill="#ffd343"/>
+  <text class="small" x="920" y="208" text-anchor="end" font-size="15" fill="#f6c177">6</text>
+  <text class="small" x="540" y="242" text-anchor="start" font-size="16" fill="#e0def4">Shell</text>
+  <rect x="670" y="227" width="270" height="18" fill="#191724"/>
+  <rect x="674" y="231" width="130" height="10" fill="#89e051"/>
+  <text class="small" x="920" y="242" text-anchor="end" font-size="15" fill="#f6c177">4</text>
+  <text class="small" x="540" y="276" text-anchor="start" font-size="16" fill="#e0def4">HTML</text>
+  <rect x="670" y="261" width="270" height="18" fill="#191724"/>
+  <rect x="674" y="265" width="65" height="10" fill="#e34c26"/>
+  <text class="small" x="920" y="276" text-anchor="end" font-size="15" fill="#f6c177">2</text>
+  <rect x="540" y="290" width="360" height="32" fill="#191724"/>
+  <text class="small" x="558" y="312" text-anchor="start" font-size="14" fill="#f6c177">SYNC: 05-14 14:55 CST</text>
+</svg>
