@@ -26,31 +26,33 @@ USER_AGENT = "ld000-pixel-profile-generator"
 
 
 PALETTE = {
-    "bg": "#191724",
-    "panel": "#1f1d2e",
-    "panel_2": "#26233a",
-    "muted": "#6e6a86",
-    "text": "#e0def4",
-    "gold": "#f6c177",
-    "pink": "#eb6f92",
-    "rose": "#ebbcba",
-    "cyan": "#9ccfd8",
-    "blue": "#31748f",
+    "bg": "#071a1a",
+    "shadow": "#041010",
+    "panel": "#0d2b2e",
+    "panel_2": "#12383d",
+    "line": "#1f5f5b",
+    "muted": "#6b8f89",
+    "text": "#f8f5dc",
+    "mint": "#6fffd2",
+    "cyan": "#46d9ff",
+    "gold": "#ffd166",
+    "coral": "#ff6b6b",
+    "leaf": "#2dd4a7",
 }
 
 
 LANG_COLORS = {
-    "Rust": "#dea584",
-    "Python": "#ffd343",
-    "JavaScript": "#f7df1e",
-    "TypeScript": "#3178c6",
-    "Shell": "#89e051",
-    "SCSS": "#c6538c",
-    "CSS": "#563d7c",
-    "Java": "#b07219",
-    "GDScript": "#355570",
-    "C#": "#178600",
-    "HTML": "#e34c26",
+    "Rust": "#ffd166",
+    "Python": "#46d9ff",
+    "JavaScript": "#f8f5dc",
+    "TypeScript": "#46d9ff",
+    "Shell": "#6fffd2",
+    "SCSS": "#ff6b6b",
+    "CSS": "#2dd4a7",
+    "Java": "#ffb86b",
+    "GDScript": "#6fffd2",
+    "C#": "#2dd4a7",
+    "HTML": "#ff6b6b",
 }
 
 
@@ -176,48 +178,50 @@ def generate_hero(summary: dict) -> str:
 
     parts = [
         rect(0, 0, 960, 320, PALETTE["bg"]),
-        rect(0, 242, 960, 78, PALETTE["panel_2"]),
-        rect(0, 258, 960, 14, PALETTE["blue"]),
-        rect(0, 286, 960, 34, PALETTE["panel"]),
-        rect(0, 0, 960, 14, PALETTE["pink"]),
-        rect(0, 14, 960, 8, PALETTE["gold"]),
-        rect(0, 298, 960, 8, PALETTE["gold"]),
-        rect(0, 306, 960, 14, PALETTE["pink"]),
+        rect(0, 252, 960, 68, PALETTE["shadow"]),
+        rect(0, 268, 960, 12, PALETTE["line"]),
+        rect(0, 296, 960, 24, PALETTE["panel"]),
+        rect(0, 0, 960, 10, PALETTE["mint"]),
+        rect(0, 10, 960, 8, PALETTE["gold"]),
+        rect(0, 302, 960, 8, PALETTE["gold"]),
+        rect(0, 310, 960, 10, PALETTE["coral"]),
     ]
 
     for x, y, size, color in [
         (70, 48, 12, "gold"),
         (106, 84, 8, "text"),
         (154, 42, 8, "text"),
-        (818, 54, 10, "gold"),
+        (818, 54, 10, "mint"),
         (876, 92, 8, "text"),
         (736, 34, 6, "text"),
+        (902, 42, 6, "cyan"),
+        (48, 120, 6, "cyan"),
     ]:
         parts.append(rect(x, y, size, size, PALETTE[color]))
 
     parts += [
-        rect(790, 40, 48, 48, PALETTE["gold"]),
-        rect(778, 52, 12, 24, PALETTE["gold"]),
-        rect(838, 52, 12, 24, PALETTE["gold"]),
+        rect(780, 38, 58, 50, PALETTE["gold"]),
+        rect(768, 50, 12, 26, PALETTE["gold"]),
+        rect(838, 50, 12, 26, PALETTE["gold"]),
         rect(802, 52, 12, 12, PALETTE["bg"]),
         rect(826, 52, 12, 12, PALETTE["bg"]),
-        rect(814, 76, 12, 12, PALETTE["bg"]),
-        rect(54, 206, 52, 36, "#403d52"),
-        rect(118, 174, 64, 68, "#403d52"),
-        rect(194, 196, 50, 46, "#403d52"),
-        rect(714, 190, 62, 52, "#403d52"),
-        rect(790, 160, 58, 82, "#403d52"),
-        rect(864, 204, 44, 38, "#403d52"),
-        rect(130, 188, 10, 10, PALETTE["cyan"]),
-        rect(154, 188, 10, 10, PALETTE["cyan"]),
-        rect(802, 174, 10, 10, PALETTE["cyan"]),
-        rect(826, 174, 10, 10, PALETTE["cyan"]),
-        rect(802, 202, 10, 10, PALETTE["cyan"]),
-        rect(826, 202, 10, 10, PALETTE["cyan"]),
-        rect(86, 252, 24, 24, PALETTE["pink"]),
+        rect(814, 74, 12, 8, PALETTE["bg"]),
+        rect(54, 212, 54, 40, PALETTE["panel_2"]),
+        rect(120, 178, 64, 74, PALETTE["panel_2"]),
+        rect(196, 202, 52, 50, PALETTE["panel_2"]),
+        rect(712, 194, 64, 58, PALETTE["panel_2"]),
+        rect(790, 166, 58, 86, PALETTE["panel_2"]),
+        rect(864, 210, 44, 42, PALETTE["panel_2"]),
+        rect(132, 192, 10, 10, PALETTE["mint"]),
+        rect(156, 192, 10, 10, PALETTE["cyan"]),
+        rect(802, 180, 10, 10, PALETTE["mint"]),
+        rect(826, 180, 10, 10, PALETTE["cyan"]),
+        rect(802, 208, 10, 10, PALETTE["cyan"]),
+        rect(826, 208, 10, 10, PALETTE["mint"]),
+        rect(86, 252, 24, 24, PALETTE["coral"]),
         rect(110, 252, 24, 24, PALETTE["gold"]),
-        rect(134, 252, 24, 24, PALETTE["pink"]),
-        rect(110, 228, 24, 24, PALETTE["gold"]),
+        rect(134, 252, 24, 24, PALETTE["coral"]),
+        rect(110, 228, 24, 24, PALETTE["mint"]),
         rect(110, 276, 24, 24, PALETTE["muted"]),
         rect(86, 276, 24, 14, PALETTE["cyan"]),
         rect(134, 276, 24, 14, PALETTE["cyan"]),
@@ -232,44 +236,51 @@ def generate_hero(summary: dict) -> str:
         ]
 
     parts += [
-        rect(246, 50, 468, 152, PALETTE["panel"]),
-        rect(258, 62, 444, 128, PALETTE["panel_2"]),
-        rect(246, 50, 468, 8, PALETTE["gold"]),
-        rect(246, 194, 468, 8, PALETTE["pink"]),
-        rect(246, 50, 8, 152, PALETTE["pink"]),
-        rect(706, 50, 8, 152, PALETTE["pink"]),
+        rect(238, 46, 484, 166, PALETTE["shadow"]),
+        rect(246, 38, 468, 166, PALETTE["panel"]),
+        rect(258, 50, 444, 142, PALETTE["panel_2"]),
+        rect(246, 38, 468, 8, PALETTE["mint"]),
+        rect(246, 196, 468, 8, PALETTE["coral"]),
+        rect(246, 38, 8, 166, PALETTE["gold"]),
+        rect(706, 38, 8, 166, PALETTE["gold"]),
+        rect(282, 70, 22, 8, PALETTE["mint"]),
+        rect(656, 70, 22, 8, PALETTE["coral"]),
         text("LD000", 480, 108, 60, PALETTE["text"], "middle"),
-        text("RUST  GAMES  TOOLS  NOTES", 480, 142, 18, PALETTE["cyan"], "middle", "small"),
+        text("RUST  GAMES  TOOLS  NOTES", 480, 142, 18, PALETTE["mint"], "middle", "small"),
         text(f"REPOS {summary['public_repos']}", 332, 174, 16, PALETTE["gold"], "start", "small"),
         text(f"STARS {summary['total_stars']}", 488, 174, 16, PALETTE["gold"], "middle", "small"),
         text(f"FOLLOWERS {summary['followers']}", 682, 174, 16, PALETTE["gold"], "end", "small"),
-        rect(312, 214, 336, 38, PALETTE["bg"]),
-        rect(324, 224, 312, 18, PALETTE["rose"]),
+        rect(304, 218, 352, 40, PALETTE["shadow"]),
+        rect(316, 228, 328, 18, PALETTE["mint"]),
         text(f"LATEST QUEST: {latest_label}", 480, 240, 17, PALETTE["bg"], "middle", "small"),
-        text(f"SYNC {summary['updated']}", 480, 276, 14, PALETTE["text"], "middle", "small"),
-        rect(0, 0, 8, 320, PALETTE["pink"]),
-        rect(952, 0, 8, 320, PALETTE["pink"]),
+        text(f"SYNC {summary['updated']}", 480, 282, 14, PALETTE["text"], "middle", "small"),
+        rect(0, 0, 8, 320, PALETTE["mint"]),
+        rect(952, 0, 8, 320, PALETTE["coral"]),
     ]
     return svg_shell(
         960,
         320,
         "\n".join(f"  {part}" for part in parts),
-        "ld000 pixel game banner",
-        "A dynamic retro pixel art profile banner with GitHub counters.",
+        "ld000 pixel profile title screen",
+        "A clean pixel arcade profile banner with GitHub counters.",
     )
 
 
 def generate_status(summary: dict) -> str:
     parts = [
         rect(0, 0, 960, 360, PALETTE["bg"]),
-        rect(14, 14, 932, 332, PALETTE["panel"]),
-        rect(28, 28, 904, 304, PALETTE["panel_2"]),
-        rect(14, 14, 932, 10, PALETTE["pink"]),
-        rect(14, 336, 932, 10, PALETTE["gold"]),
-        rect(14, 14, 10, 332, PALETTE["gold"]),
-        rect(936, 14, 10, 332, PALETTE["pink"]),
-        text("[ SCORE BOARD ]", 54, 70, 28, PALETTE["gold"]),
-        text("AUTO-GENERATED PIXEL STATUS", 54, 100, 18, PALETTE["cyan"], klass="small"),
+        rect(12, 12, 936, 336, PALETTE["shadow"]),
+        rect(22, 22, 916, 316, PALETTE["panel"]),
+        rect(36, 36, 888, 288, PALETTE["panel_2"]),
+        rect(22, 22, 916, 8, PALETTE["mint"]),
+        rect(22, 330, 916, 8, PALETTE["coral"]),
+        rect(22, 22, 8, 316, PALETTE["gold"]),
+        rect(930, 22, 8, 316, PALETTE["gold"]),
+        rect(62, 52, 18, 18, PALETTE["mint"]),
+        rect(86, 52, 18, 18, PALETTE["gold"]),
+        rect(110, 52, 18, 18, PALETTE["coral"]),
+        text("[ SAVE SLOT STATUS ]", 54, 104, 27, PALETTE["gold"]),
+        text("AUTO-GENERATED FROM PUBLIC GITHUB DATA", 54, 132, 16, PALETTE["mint"], klass="small"),
     ]
 
     stat_items = [
@@ -279,42 +290,48 @@ def generate_status(summary: dict) -> str:
     ]
     for label, value, x in stat_items:
         parts += [
-            rect(x, 124, 112, 70, PALETTE["bg"]),
-            rect(x + 8, 132, 96, 54, PALETTE["panel"]),
-            text(label, x + 56, 154, 16, PALETTE["cyan"], "middle", "small"),
-            text(value, x + 56, 178, 24, PALETTE["gold"], "middle"),
+            rect(x, 158, 112, 70, PALETTE["shadow"]),
+            rect(x + 8, 166, 96, 54, PALETTE["panel"]),
+            rect(x + 8, 166, 96, 6, PALETTE["line"]),
+            text(label, x + 56, 188, 15, PALETTE["mint"], "middle", "small"),
+            text(value, x + 56, 212, 24, PALETTE["gold"], "middle"),
         ]
 
     parts += [
-        text("LATEST QUESTS", 54, 228, 20, PALETTE["rose"]),
+        text("LATEST QUESTS", 54, 256, 20, PALETTE["coral"]),
     ]
-    for index, repo in enumerate(summary["latest"][:4]):
-        y = 258 + index * 24
+    for index, repo in enumerate(summary["latest"][:3]):
+        y = 282 + index * 20
         name = truncate(repo.get("name") or "unknown", 24)
         lang = repo.get("language") or "Unknown"
         stars = repo.get("stargazers_count") or 0
         parts += [
             rect(60, y - 14, 12, 12, PALETTE["gold"] if index == 0 else PALETTE["muted"]),
             text(name, 84, y, 17, PALETTE["text"], klass="small"),
-            text(f"{lang}  *{stars}", 318, y, 16, PALETTE["cyan"], klass="small"),
-        ]
-
-    parts += [text("LANGUAGE MAP", 540, 70, 24, PALETTE["rose"])]
-    max_count = max([count for _, count in summary["top_languages"]] or [1])
-    for index, (language, count) in enumerate(summary["top_languages"][:6]):
-        y = 106 + index * 34
-        bar_width = max(18, int(260 * count / max_count))
-        color = LANG_COLORS.get(language, PALETTE["cyan"])
-        parts += [
-            text(truncate(language, 12), 540, y, 16, PALETTE["text"], klass="small"),
-            rect(670, y - 15, 270, 18, PALETTE["bg"]),
-            rect(674, y - 11, bar_width, 10, color),
-            text(count, 920, y, 15, PALETTE["gold"], "end", "small"),
+            text(f"{lang}  *{stars}", 318, y, 16, PALETTE["mint"], klass="small"),
         ]
 
     parts += [
-        rect(540, 290, 360, 32, PALETTE["bg"]),
-        text(f"SYNC: {summary['updated']}", 558, 312, 14, PALETTE["gold"], "start", "small"),
+        rect(512, 54, 396, 236, PALETTE["shadow"]),
+        rect(524, 66, 372, 212, PALETTE["panel"]),
+        text("LANGUAGE MAP", 548, 104, 24, PALETTE["coral"]),
+    ]
+    max_count = max([count for _, count in summary["top_languages"]] or [1])
+    for index, (language, count) in enumerate(summary["top_languages"][:6]):
+        y = 136 + index * 30
+        bar_width = max(18, int(200 * count / max_count))
+        color = LANG_COLORS.get(language, PALETTE["cyan"])
+        parts += [
+            text(truncate(language, 12), 548, y, 15, PALETTE["text"], klass="small"),
+            rect(674, y - 14, 236, 16, PALETTE["bg"]),
+            rect(678, y - 10, bar_width, 8, color),
+            text(count, 888, y, 14, PALETTE["gold"], "end", "small"),
+        ]
+
+    parts += [
+        rect(524, 300, 372, 28, PALETTE["shadow"]),
+        rect(536, 308, 348, 12, PALETTE["mint"]),
+        text(f"SYNC: {summary['updated']}", 548, 324, 14, PALETTE["gold"], "start", "small"),
     ]
 
     return svg_shell(
@@ -322,7 +339,7 @@ def generate_status(summary: dict) -> str:
         360,
         "\n".join(f"  {part}" for part in parts),
         "ld000 pixel status board",
-        "A dynamic pixel style status board generated from public GitHub profile data.",
+        "A clean pixel style status board generated from public GitHub profile data.",
     )
 
 

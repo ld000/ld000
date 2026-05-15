@@ -2,158 +2,119 @@
 
 ![ld000 pixel title screen](./assets/pixel-hero.svg)
 
-<pre><code>PRESS START
-LD000 PROFILE CARTRIDGE
-CODE / NOTES / GAME DEV / SMALL TOOLS</code></pre>
-
-[![Blog](https://img.shields.io/badge/BLOG-ld000.space-f6c177?style=for-the-badge&labelColor=191724&logo=hugo&logoColor=f6c177)](https://ld000.space/)
-[![GitHub](https://img.shields.io/badge/GITHUB-ld000-eb6f92?style=for-the-badge&labelColor=191724&logo=github)](https://github.com/ld000)
+[![Blog](https://img.shields.io/badge/BLOG-ld000.space-6fffd2?style=for-the-badge&labelColor=071a1a&logo=hugo&logoColor=6fffd2)](https://ld000.space/)
+[![GitHub](https://img.shields.io/badge/GITHUB-ld000-ffd166?style=for-the-badge&labelColor=071a1a&logo=github&logoColor=ffd166)](https://github.com/ld000)
 
 </div>
 
-## TITLE SCREEN
+```text
+PRESS START
+LD000 PROFILE CARTRIDGE
+CODE / NOTES / GAME DEV / SMALL TOOLS
+```
 
-<table>
-  <tr>
-    <td width="55%">
+## Title Screen
 
-<pre><code>PLAYER    ld000
+```text
+PLAYER    ld000
 CLASS     developer / side-quest engineer
 BASE      Beijing, China
 MOTTO     May the code be with you.
 
 STYLE     pixel RPG mood, real-world code
-MODE      build small, learn deeply, ship notes</code></pre>
+MODE      build small, learn deeply, ship notes
+```
 
-    </td>
-    <td width="45%">
+## Player Card
 
-<pre><code>STATUS
-HP  practical engineering
-MP  curiosity
-XP  public repos + experiments
-INT notes, tools, game systems
+**Main quests**
 
-SAVE SLOT
-Blog   ld000.space
-GitHub github.com/ld000</code></pre>
+- Build useful developer tools.
+- Explore game development.
+- Learn systems by making tiny things.
+- Keep a public trail of notes.
 
-    </td>
-  </tr>
-</table>
+**Party roles**
 
-## PLAYER CARD
+- Rust tinkerer
+- Web builder
+- Automation maker
+- Blog keeper
 
-<table>
-  <tr>
-    <td width="50%">
-
-<pre><code>MAIN QUESTS
-> Build useful developer tools
-> Explore game development
-> Learn systems by making tiny things
-> Keep a public trail of notes</code></pre>
-
-    </td>
-    <td width="50%">
-
-<pre><code>PARTY ROLES
-> Rust tinkerer
-> Web builder
-> Automation maker
-> Blog keeper</code></pre>
-
-    </td>
-  </tr>
-</table>
-
-## INVENTORY
+## Inventory
 
 <p>
-  <img alt="Rust" src="https://img.shields.io/badge/Rust-191724?style=flat-square&amp;logo=rust&amp;logoColor=ebbcba" />
-  <img alt="Bevy" src="https://img.shields.io/badge/Bevy-191724?style=flat-square&amp;logo=bevy&amp;logoColor=9ccfd8" />
-  <img alt="Godot" src="https://img.shields.io/badge/Godot-191724?style=flat-square&amp;logo=godotengine&amp;logoColor=9ccfd8" />
-  <img alt="Unity" src="https://img.shields.io/badge/Unity-191724?style=flat-square&amp;logo=unity&amp;logoColor=e0def4" />
-  <img alt="Python" src="https://img.shields.io/badge/Python-191724?style=flat-square&amp;logo=python&amp;logoColor=f6c177" />
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-191724?style=flat-square&amp;logo=typescript&amp;logoColor=9ccfd8" />
-  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-191724?style=flat-square&amp;logo=javascript&amp;logoColor=f6c177" />
-  <img alt="Hugo" src="https://img.shields.io/badge/Hugo-191724?style=flat-square&amp;logo=hugo&amp;logoColor=c4a7e7" />
-  <img alt="Shell" src="https://img.shields.io/badge/Shell-191724?style=flat-square&amp;logo=gnubash&amp;logoColor=31748f" />
-  <img alt="Docker" src="https://img.shields.io/badge/Docker-191724?style=flat-square&amp;logo=docker&amp;logoColor=9ccfd8" />
+  <img alt="Rust" src="https://img.shields.io/badge/Rust-071a1a?style=flat-square&amp;logo=rust&amp;logoColor=ffd166" />
+  <img alt="Bevy" src="https://img.shields.io/badge/Bevy-071a1a?style=flat-square&amp;logo=bevy&amp;logoColor=6fffd2" />
+  <img alt="Godot" src="https://img.shields.io/badge/Godot-071a1a?style=flat-square&amp;logo=godotengine&amp;logoColor=46d9ff" />
+  <img alt="Unity" src="https://img.shields.io/badge/Unity-071a1a?style=flat-square&amp;logo=unity&amp;logoColor=f8f5dc" />
+  <img alt="Python" src="https://img.shields.io/badge/Python-071a1a?style=flat-square&amp;logo=python&amp;logoColor=ffd166" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-071a1a?style=flat-square&amp;logo=typescript&amp;logoColor=46d9ff" />
+  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-071a1a?style=flat-square&amp;logo=javascript&amp;logoColor=ffd166" />
+  <img alt="Hugo" src="https://img.shields.io/badge/Hugo-071a1a?style=flat-square&amp;logo=hugo&amp;logoColor=ff6b6b" />
+  <img alt="Shell" src="https://img.shields.io/badge/Shell-071a1a?style=flat-square&amp;logo=gnubash&amp;logoColor=6fffd2" />
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-071a1a?style=flat-square&amp;logo=docker&amp;logoColor=46d9ff" />
 </p>
 
-<pre><code>LOADOUT
+```text
+LOADOUT
 [RUST] systems, games, command-line tools
 [WEB ] blogs, dashboards, small useful interfaces
 [AUTO] scripts that turn chores into checkpoints
-[DOCS] notes first, polish after the idea survives</code></pre>
+[DOCS] notes first, polish after the idea survives
+```
 
-## STAGE SELECT
+## Stage Select
 
-<table>
-  <tr>
-    <td width="50%">
+### 1-1 Block Stack
 
-<h3>1-1 Block Stack</h3>
+[bevy-tetris](https://github.com/ld000/bevy-tetris)
 
-<p><a href="https://github.com/ld000/bevy-tetris">bevy-tetris</a><br />
-Rust + Bevy experiment with classic arcade gravity.</p>
+Rust + Bevy experiment with classic arcade gravity.
 
-    </td>
-    <td width="50%">
+### 1-2 Data Dungeon
 
-<h3>1-2 Data Dungeon</h3>
+[redis-rust](https://github.com/ld000/redis-rust)
 
-<p><a href="https://github.com/ld000/redis-rust">redis-rust</a><br />
-Learning storage systems by rebuilding the path.</p>
+Learning storage systems by rebuilding the path.
 
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
+### 2-1 Web Crawler Road
 
-<h3>2-1 Web Crawler Road</h3>
+[spider](https://github.com/ld000/spider)
 
-<p><a href="https://github.com/ld000/spider">spider</a><br />
-Crawler experiments and practical scraping notes.</p>
+Crawler experiments and practical scraping notes.
 
-    </td>
-    <td width="50%">
+### 2-2 Campfire Notes
 
-<h3>2-2 Campfire Notes</h3>
+[blog-hugo](https://github.com/ld000/blog-hugo)
 
-<p><a href="https://github.com/ld000/blog-hugo">blog-hugo</a><br />
-The static-site engine behind the public notebook.</p>
-
-    </td>
-  </tr>
-</table>
+The static-site engine behind the public notebook.
 
 <details>
-  <summary>Open arcade cabinet stats</summary>
+  <summary>Open optional GitHub stats cards</summary>
 
 <br />
 
 <a href="https://github.com/ld000/bevy-tetris">
-  <img align="center" alt="bevy-tetris GitHub stats card" src="https://github-readme-stats.vercel.app/api/pin/?username=ld000&amp;repo=bevy-tetris&amp;theme=gruvbox&amp;hide_border=true" />
+  <img align="center" alt="bevy-tetris GitHub stats card" src="https://github-readme-stats.vercel.app/api/pin/?username=ld000&amp;repo=bevy-tetris&amp;theme=tokyonight&amp;hide_border=true" />
 </a>
 <a href="https://github.com/ld000/redis-rust">
-  <img align="center" alt="redis-rust GitHub stats card" src="https://github-readme-stats.vercel.app/api/pin/?username=ld000&amp;repo=redis-rust&amp;theme=gruvbox&amp;hide_border=true" />
+  <img align="center" alt="redis-rust GitHub stats card" src="https://github-readme-stats.vercel.app/api/pin/?username=ld000&amp;repo=redis-rust&amp;theme=tokyonight&amp;hide_border=true" />
 </a>
 
 <br />
 <br />
 
 <a href="https://github.com/ld000/spider">
-  <img align="center" alt="spider GitHub stats card" src="https://github-readme-stats.vercel.app/api/pin/?username=ld000&amp;repo=spider&amp;theme=gruvbox&amp;hide_border=true" />
+  <img align="center" alt="spider GitHub stats card" src="https://github-readme-stats.vercel.app/api/pin/?username=ld000&amp;repo=spider&amp;theme=tokyonight&amp;hide_border=true" />
 </a>
 <a href="https://github.com/ld000/blog-hugo">
-  <img align="center" alt="blog-hugo GitHub stats card" src="https://github-readme-stats.vercel.app/api/pin/?username=ld000&amp;repo=blog-hugo&amp;theme=gruvbox&amp;hide_border=true" />
+  <img align="center" alt="blog-hugo GitHub stats card" src="https://github-readme-stats.vercel.app/api/pin/?username=ld000&amp;repo=blog-hugo&amp;theme=tokyonight&amp;hide_border=true" />
 </a>
 
 </details>
 
-## SCORE BOARD
+## Score Board
 
 <div align="center">
 
@@ -161,30 +122,23 @@ The static-site engine behind the public notebook.</p>
 
 </div>
 
-## SAVE POINT
+## Save Point
 
-<table>
-  <tr>
-    <td width="50%">
+**Visit**
 
-<pre><code>VISIT
-Blog   https://ld000.space/
-GitHub https://github.com/ld000</code></pre>
+- Blog: [ld000.space](https://ld000.space/)
+- GitHub: [github.com/ld000](https://github.com/ld000)
 
-    </td>
-    <td width="50%">
+**Next run**
 
-<pre><code>NEXT RUN
+```text
 Keep building.
 Keep writing.
-Keep the pixels sharp.</code></pre>
-
-    </td>
-  </tr>
-</table>
+Keep the pixels sharp.
+```
 
 <div align="center">
 
-<pre><code>THANKS FOR VISITING - INSERT COIN TO FOLLOW</code></pre>
+<strong>THANKS FOR VISITING - INSERT COIN TO FOLLOW</strong>
 
 </div>
