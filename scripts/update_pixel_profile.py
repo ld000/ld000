@@ -26,33 +26,35 @@ USER_AGENT = "ld000-pixel-profile-generator"
 
 
 PALETTE = {
-    "bg": "#071a1a",
-    "shadow": "#041010",
-    "panel": "#0d2b2e",
-    "panel_2": "#12383d",
-    "line": "#1f5f5b",
-    "muted": "#6b8f89",
-    "text": "#f8f5dc",
-    "mint": "#6fffd2",
-    "cyan": "#46d9ff",
-    "gold": "#ffd166",
-    "coral": "#ff6b6b",
-    "leaf": "#2dd4a7",
+    "ink": "#15131A",
+    "shadow": "#0D0B12",
+    "panel": "#272034",
+    "panel_2": "#32283F",
+    "panel_3": "#3B3149",
+    "text": "#F2D6A2",
+    "screen": "#8FD6C2",
+    "screen_dim": "#467E72",
+    "accent": "#F28F6B",
+    "accent_dim": "#8E4F4C",
+    "muted": "#6E5A7E",
+    "cream_dim": "#BFA77E",
+    "desk": "#211A25",
+    "line": "#51445E",
 }
 
 
 LANG_COLORS = {
-    "Rust": "#ffd166",
-    "Python": "#46d9ff",
-    "JavaScript": "#f8f5dc",
-    "TypeScript": "#46d9ff",
-    "Shell": "#6fffd2",
-    "SCSS": "#ff6b6b",
-    "CSS": "#2dd4a7",
-    "Java": "#ffb86b",
-    "GDScript": "#6fffd2",
-    "C#": "#2dd4a7",
-    "HTML": "#ff6b6b",
+    "Rust": "#F28F6B",
+    "Python": "#8FD6C2",
+    "JavaScript": "#F2D6A2",
+    "TypeScript": "#8FD6C2",
+    "Shell": "#BFA77E",
+    "SCSS": "#D87872",
+    "CSS": "#9EC89A",
+    "Java": "#D99B64",
+    "GDScript": "#8FD6C2",
+    "C#": "#9EC89A",
+    "HTML": "#F28F6B",
 }
 
 
@@ -159,6 +161,26 @@ def truncate(value: object, limit: int) -> str:
     return raw[: max(0, limit - 1)] + "."
 
 
+def pixel_frame(
+    x: int,
+    y: int,
+    w: int,
+    h: int,
+    fill: str,
+    border: str,
+    shade: str,
+    cap: str | None = None,
+) -> list[str]:
+    parts = [
+        rect(x + 8, y + 8, w, h, shade),
+        rect(x, y, w, h, border),
+        rect(x + 6, y + 6, w - 12, h - 12, fill),
+    ]
+    if cap is not None:
+        parts.append(rect(x + 6, y + 6, w - 12, 8, cap))
+    return parts
+
+
 def svg_shell(width: int, height: int, body: str, title: str, desc: str) -> str:
     return f'''<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">{escape(title)}</title>
@@ -174,164 +196,146 @@ def svg_shell(width: int, height: int, body: str, title: str, desc: str) -> str:
 
 def generate_hero(summary: dict) -> str:
     latest_name = summary["latest"][0]["name"] if summary["latest"] else "ready"
-    latest_label = truncate(latest_name, 24).upper()
+    latest_label = truncate(latest_name, 20).upper()
 
     parts = [
-        rect(0, 0, 960, 320, PALETTE["bg"]),
-        rect(0, 252, 960, 68, PALETTE["shadow"]),
-        rect(0, 268, 960, 12, PALETTE["line"]),
-        rect(0, 296, 960, 24, PALETTE["panel"]),
-        rect(0, 0, 960, 10, PALETTE["mint"]),
-        rect(0, 10, 960, 8, PALETTE["gold"]),
-        rect(0, 302, 960, 8, PALETTE["gold"]),
-        rect(0, 310, 960, 10, PALETTE["coral"]),
+        rect(0, 0, 960, 320, PALETTE["ink"]),
+        rect(32, 32, 896, 256, PALETTE["panel"]),
+        rect(40, 40, 880, 240, PALETTE["ink"]),
+        rect(0, 244, 960, 76, PALETTE["desk"]),
+        rect(32, 244, 896, 8, PALETTE["line"]),
+        rect(112, 256, 736, 16, PALETTE["shadow"]),
+        rect(352, 224, 256, 20, PALETTE["shadow"]),
     ]
 
-    for x, y, size, color in [
-        (70, 48, 12, "gold"),
-        (106, 84, 8, "text"),
-        (154, 42, 8, "text"),
-        (818, 54, 10, "mint"),
-        (876, 92, 8, "text"),
-        (736, 34, 6, "text"),
-        (902, 42, 6, "cyan"),
-        (48, 120, 6, "cyan"),
-    ]:
-        parts.append(rect(x, y, size, size, PALETTE[color]))
-
+    parts += pixel_frame(296, 52, 368, 188, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
     parts += [
-        rect(780, 38, 58, 50, PALETTE["gold"]),
-        rect(768, 50, 12, 26, PALETTE["gold"]),
-        rect(838, 50, 12, 26, PALETTE["gold"]),
-        rect(802, 52, 12, 12, PALETTE["bg"]),
-        rect(826, 52, 12, 12, PALETTE["bg"]),
-        rect(814, 74, 12, 8, PALETTE["bg"]),
-        rect(54, 212, 54, 40, PALETTE["panel_2"]),
-        rect(120, 178, 64, 74, PALETTE["panel_2"]),
-        rect(196, 202, 52, 50, PALETTE["panel_2"]),
-        rect(712, 194, 64, 58, PALETTE["panel_2"]),
-        rect(790, 166, 58, 86, PALETTE["panel_2"]),
-        rect(864, 210, 44, 42, PALETTE["panel_2"]),
-        rect(132, 192, 10, 10, PALETTE["mint"]),
-        rect(156, 192, 10, 10, PALETTE["cyan"]),
-        rect(802, 180, 10, 10, PALETTE["mint"]),
-        rect(826, 180, 10, 10, PALETTE["cyan"]),
-        rect(802, 208, 10, 10, PALETTE["cyan"]),
-        rect(826, 208, 10, 10, PALETTE["mint"]),
-        rect(86, 252, 24, 24, PALETTE["coral"]),
-        rect(110, 252, 24, 24, PALETTE["gold"]),
-        rect(134, 252, 24, 24, PALETTE["coral"]),
-        rect(110, 228, 24, 24, PALETTE["mint"]),
-        rect(110, 276, 24, 24, PALETTE["muted"]),
-        rect(86, 276, 24, 14, PALETTE["cyan"]),
-        rect(134, 276, 24, 14, PALETTE["cyan"]),
-        rect(92, 240, 12, 12, PALETTE["bg"]),
-        rect(140, 240, 12, 12, PALETTE["bg"]),
+        rect(320, 76, 320, 124, PALETTE["shadow"]),
+        rect(328, 84, 304, 108, PALETTE["panel"]),
+        rect(336, 92, 288, 92, PALETTE["screen_dim"]),
+        rect(344, 100, 272, 76, PALETTE["ink"]),
+        text("LD000", 480, 130, 52, PALETTE["text"], "middle"),
+        text("RUST / GAMES / TOOLS / NOTES", 480, 160, 16, PALETTE["screen"], "middle", "small"),
+        rect(360, 176, 72, 4, PALETTE["accent"]),
+        rect(444, 176, 88, 4, PALETTE["screen"]),
+        rect(544, 176, 56, 4, PALETTE["cream_dim"]),
+        rect(424, 204, 112, 16, PALETTE["shadow"]),
+        rect(384, 228, 192, 12, PALETTE["panel_3"]),
+        rect(392, 232, 176, 4, PALETTE["muted"]),
     ]
 
-    for x, y in [(648, 236), (690, 212), (732, 236)]:
-        parts += [
-            rect(x, y, 26, 26, PALETTE["gold"]),
-            rect(x + 6, y + 6, 14, 14, PALETTE["bg"]),
-        ]
-
     parts += [
-        rect(238, 46, 484, 166, PALETTE["shadow"]),
-        rect(246, 38, 468, 166, PALETTE["panel"]),
-        rect(258, 50, 444, 142, PALETTE["panel_2"]),
-        rect(246, 38, 468, 8, PALETTE["mint"]),
-        rect(246, 196, 468, 8, PALETTE["coral"]),
-        rect(246, 38, 8, 166, PALETTE["gold"]),
-        rect(706, 38, 8, 166, PALETTE["gold"]),
-        rect(282, 70, 22, 8, PALETTE["mint"]),
-        rect(656, 70, 22, 8, PALETTE["coral"]),
-        text("LD000", 480, 108, 60, PALETTE["text"], "middle"),
-        text("RUST  GAMES  TOOLS  NOTES", 480, 142, 18, PALETTE["mint"], "middle", "small"),
-        text(f"REPOS {summary['public_repos']}", 332, 174, 16, PALETTE["gold"], "start", "small"),
-        text(f"STARS {summary['total_stars']}", 488, 174, 16, PALETTE["gold"], "middle", "small"),
-        text(f"FOLLOWERS {summary['followers']}", 682, 174, 16, PALETTE["gold"], "end", "small"),
-        rect(304, 218, 352, 40, PALETTE["shadow"]),
-        rect(316, 228, 328, 18, PALETTE["mint"]),
-        text(f"LATEST QUEST: {latest_label}", 480, 240, 17, PALETTE["bg"], "middle", "small"),
-        text(f"SYNC {summary['updated']}", 480, 282, 14, PALETTE["text"], "middle", "small"),
-        rect(0, 0, 8, 320, PALETTE["mint"]),
-        rect(952, 0, 8, 320, PALETTE["coral"]),
+        rect(96, 192, 120, 12, PALETTE["line"]),
+        rect(112, 176, 88, 16, PALETTE["accent"]),
+        rect(124, 160, 64, 16, PALETTE["text"]),
+        rect(136, 144, 40, 16, PALETTE["muted"]),
+        rect(160, 92, 12, 52, PALETTE["line"]),
+        rect(124, 76, 72, 20, PALETTE["accent"]),
+        rect(132, 84, 56, 8, PALETTE["text"]),
+        rect(192, 252, 120, 24, PALETTE["shadow"]),
+        rect(204, 236, 96, 16, PALETTE["panel_3"]),
+        rect(212, 240, 32, 4, PALETTE["screen"]),
+        rect(252, 240, 32, 4, PALETTE["cream_dim"]),
+        rect(724, 224, 92, 40, PALETTE["shadow"]),
+        rect(736, 204, 68, 20, PALETTE["panel_3"]),
+        rect(748, 212, 44, 4, PALETTE["screen"]),
+        rect(824, 252, 44, 24, PALETTE["accent_dim"]),
+        rect(832, 240, 28, 12, PALETTE["text"]),
+    ]
+
+    parts += pixel_frame(696, 64, 176, 128, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
+    parts += [
+        text("STATUS", 724, 96, 18, PALETTE["text"], klass="small"),
+        text(f"REPOS {summary['public_repos']}", 724, 124, 15, PALETTE["screen"], klass="small"),
+        text(f"STARS {summary['total_stars']}", 724, 148, 15, PALETTE["screen"], klass="small"),
+        text(f"FOLLOWERS {summary['followers']}", 724, 172, 15, PALETTE["screen"], klass="small"),
+    ]
+
+    parts += pixel_frame(320, 260, 320, 36, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
+    parts += [
+        text(f"QUEST: {latest_label}", 480, 284, 15, PALETTE["text"], "middle", "small"),
+        text(f"SYNC {summary['updated']}", 816, 292, 13, PALETTE["cream_dim"], "middle", "small"),
     ]
     return svg_shell(
         960,
         320,
         "\n".join(f"  {part}" for part in parts),
         "ld000 pixel profile title screen",
-        "A clean pixel arcade profile banner with GitHub counters.",
+        "A warm pixel terminal desk banner with GitHub counters.",
     )
 
 
 def generate_status(summary: dict) -> str:
     parts = [
-        rect(0, 0, 960, 360, PALETTE["bg"]),
-        rect(12, 12, 936, 336, PALETTE["shadow"]),
-        rect(22, 22, 916, 316, PALETTE["panel"]),
-        rect(36, 36, 888, 288, PALETTE["panel_2"]),
-        rect(22, 22, 916, 8, PALETTE["mint"]),
-        rect(22, 330, 916, 8, PALETTE["coral"]),
-        rect(22, 22, 8, 316, PALETTE["gold"]),
-        rect(930, 22, 8, 316, PALETTE["gold"]),
-        rect(62, 52, 18, 18, PALETTE["mint"]),
-        rect(86, 52, 18, 18, PALETTE["gold"]),
-        rect(110, 52, 18, 18, PALETTE["coral"]),
-        text("[ SAVE SLOT STATUS ]", 54, 104, 27, PALETTE["gold"]),
-        text("AUTO-GENERATED FROM PUBLIC GITHUB DATA", 54, 132, 16, PALETTE["mint"], klass="small"),
+        rect(0, 0, 960, 360, PALETTE["ink"]),
+        rect(40, 32, 880, 296, PALETTE["panel"]),
+        rect(48, 40, 864, 280, PALETTE["ink"]),
+        rect(64, 56, 832, 248, PALETTE["panel"]),
+    ]
+
+    parts += pixel_frame(88, 72, 216, 204, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
+    parts += [
+        text("PROFILE", 112, 108, 22, PALETTE["text"]),
+        text("PUBLIC COUNTERS", 112, 132, 13, PALETTE["screen"], klass="small"),
+        rect(112, 148, 152, 4, PALETTE["muted"]),
     ]
 
     stat_items = [
-        ("REPOS", summary["public_repos"], 54),
-        ("STARS", summary["total_stars"], 190),
-        ("FOLLOWERS", summary["followers"], 326),
+        ("REPOS", summary["public_repos"], 112, 180),
+        ("STARS", summary["total_stars"], 112, 218),
+        ("FOLLOWERS", summary["followers"], 112, 256),
     ]
-    for label, value, x in stat_items:
+    for label, value, x, y in stat_items:
         parts += [
-            rect(x, 158, 112, 70, PALETTE["shadow"]),
-            rect(x + 8, 166, 96, 54, PALETTE["panel"]),
-            rect(x + 8, 166, 96, 6, PALETTE["line"]),
-            text(label, x + 56, 188, 15, PALETTE["mint"], "middle", "small"),
-            text(value, x + 56, 212, 24, PALETTE["gold"], "middle"),
+            rect(x, y - 18, 152, 32, PALETTE["shadow"]),
+            rect(x + 8, y - 10, 40, 4, PALETTE["accent"]),
+            text(label, x + 64, y - 1, 12, PALETTE["screen"], klass="small"),
+            text(value, x + 148, y + 15, 15, PALETTE["text"], "end"),
         ]
 
+    parts += pixel_frame(328, 72, 256, 204, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
     parts += [
-        text("LATEST QUESTS", 54, 256, 20, PALETTE["coral"]),
+        text("LATEST QUESTS", 352, 108, 22, PALETTE["text"]),
+        text("RECENT PUSH TRAIL", 352, 132, 13, PALETTE["accent"], klass="small"),
+        rect(352, 148, 176, 4, PALETTE["muted"]),
     ]
-    for index, repo in enumerate(summary["latest"][:3]):
-        y = 282 + index * 20
-        name = truncate(repo.get("name") or "unknown", 24)
-        lang = repo.get("language") or "Unknown"
+    for index, repo in enumerate(summary["latest"][:5]):
+        y = 172 + index * 20
+        name = truncate(repo.get("name") or "unknown", 15)
+        lang = truncate(repo.get("language") or "Unknown", 7)
         stars = repo.get("stargazers_count") or 0
+        marker = "accent" if index == 0 else "muted"
         parts += [
-            rect(60, y - 14, 12, 12, PALETTE["gold"] if index == 0 else PALETTE["muted"]),
-            text(name, 84, y, 17, PALETTE["text"], klass="small"),
-            text(f"{lang}  *{stars}", 318, y, 16, PALETTE["mint"], klass="small"),
+            rect(352, y - 13, 8, 8, PALETTE[marker]),
+            text(name, 372, y, 13, PALETTE["text"], klass="small"),
+            text(f"{lang} *{stars}", 560, y, 11, PALETTE["screen"], "end", "small"),
         ]
 
+    parts += pixel_frame(608, 72, 264, 204, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
     parts += [
-        rect(512, 54, 396, 236, PALETTE["shadow"]),
-        rect(524, 66, 372, 212, PALETTE["panel"]),
-        text("LANGUAGE MAP", 548, 104, 24, PALETTE["coral"]),
+        text("LANGUAGE MAP", 632, 108, 22, PALETTE["text"]),
+        text("ACTIVE REPO CLUSTERS", 632, 132, 13, PALETTE["screen"], klass="small"),
+        rect(632, 148, 184, 4, PALETTE["muted"]),
     ]
     max_count = max([count for _, count in summary["top_languages"]] or [1])
     for index, (language, count) in enumerate(summary["top_languages"][:6]):
-        y = 136 + index * 30
-        bar_width = max(18, int(200 * count / max_count))
-        color = LANG_COLORS.get(language, PALETTE["cyan"])
+        y = 172 + index * 16
+        bar_width = max(16, int(104 * count / max_count))
+        color = LANG_COLORS.get(language, PALETTE["screen"])
         parts += [
-            text(truncate(language, 12), 548, y, 15, PALETTE["text"], klass="small"),
-            rect(674, y - 14, 236, 16, PALETTE["bg"]),
-            rect(678, y - 10, bar_width, 8, color),
-            text(count, 888, y, 14, PALETTE["gold"], "end", "small"),
+            text(truncate(language, 8), 632, y, 11, PALETTE["text"], klass="small"),
+            rect(724, y - 9, 112, 8, PALETTE["shadow"]),
+            rect(728, y - 7, bar_width, 4, color),
+            text(count, 852, y, 11, PALETTE["cream_dim"], "end", "small"),
         ]
 
     parts += [
-        rect(524, 300, 372, 28, PALETTE["shadow"]),
-        rect(536, 308, 348, 12, PALETTE["mint"]),
-        text(f"SYNC: {summary['updated']}", 548, 324, 14, PALETTE["gold"], "start", "small"),
+        rect(88, 280, 784, 24, PALETTE["shadow"]),
+        rect(104, 288, 408, 4, PALETTE["screen"]),
+        rect(512, 288, 88, 4, PALETTE["accent"]),
+        rect(600, 288, 64, 4, PALETTE["muted"]),
+        rect(696, 282, 160, 16, PALETTE["panel_3"]),
+        text(f"SYNC {summary['updated']}", 844, 294, 12, PALETTE["cream_dim"], "end", "small"),
     ]
 
     return svg_shell(
@@ -339,7 +343,7 @@ def generate_status(summary: dict) -> str:
         360,
         "\n".join(f"  {part}" for part in parts),
         "ld000 pixel status board",
-        "A clean pixel style status board generated from public GitHub profile data.",
+        "A warm pixel developer status board generated from public GitHub profile data.",
     )
 
 
