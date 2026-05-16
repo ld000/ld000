@@ -52,6 +52,9 @@ COLORS = {
     "green": "#6BCB77",
     "muted": "#6F7B91",
     "purple": "#9D8CFF",
+    "pink": "#FF8FB3",
+    "blue": "#4D96FF",
+    "teal": "#4ECDC4",
 }
 
 LANG_COLORS = {
@@ -84,6 +87,10 @@ FONT = {
     ":": ["0", "1", "0", "0", "0", "1", "0"],
     "*": ["00000", "10101", "01110", "11111", "01110", "10101", "00000"],
     "+": ["00000", "00100", "00100", "11111", "00100", "00100", "00000"],
+    "_": ["00000", "00000", "00000", "00000", "00000", "00000", "11111"],
+    "|": ["1", "1", "1", "1", "1", "1", "1"],
+    "#": ["01010", "11111", "01010", "01010", "11111", "01010", "00000"],
+    "@": ["01110", "10001", "10111", "10101", "10111", "10000", "01111"],
     ">": ["10000", "01000", "00100", "00010", "00100", "01000", "10000"],
     "0": ["01110", "10001", "10011", "10101", "11001", "10001", "01110"],
     "1": ["00100", "01100", "00100", "00100", "00100", "00100", "01110"],
@@ -122,6 +129,17 @@ FONT = {
     "Y": ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
     "Z": ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
 }
+
+GENERATED_ASSETS = [
+    "status-board.png",
+    "inventory.png",
+    "quest-map.png",
+    "portal-blog.png",
+    "portal-github.png",
+    "portal-notes.png",
+    "footer-sign.png",
+    *[f"project-{repo}.png" for repo, _, _ in PROJECTS],
+]
 
 
 def hex_to_rgb(value: str) -> tuple[int, int, int]:
@@ -168,6 +186,25 @@ class Canvas:
             if e2 <= dx:
                 err += dx
                 y0 += sy
+
+    def diamond(self, cx: int, cy: int, radius: int, fill: str, border: str) -> None:
+        for yy in range(-radius, radius + 1):
+            span = radius - abs(yy)
+            self.rect(cx - span, cy + yy, span * 2 + 1, 1, border)
+        inner = max(1, radius - 3)
+        for yy in range(-inner, inner + 1):
+            span = inner - abs(yy)
+            self.rect(cx - span, cy + yy, span * 2 + 1, 1, fill)
+
+    def pixel_circle(self, cx: int, cy: int, radius: int, fill: str, border: str) -> None:
+        r2 = radius * radius
+        inner = max(1, radius - 3)
+        inner2 = inner * inner
+        for yy in range(-radius, radius + 1):
+            for xx in range(-radius, radius + 1):
+                d = xx * xx + yy * yy
+                if d <= r2:
+                    self.set(cx + xx, cy + yy, fill if d <= inner2 else border)
 
     def text(self, value: object, x: int, y: int, color: str, scale: int = 1) -> None:
         cursor = x
@@ -298,6 +335,12 @@ def draw_stars(c: Canvas) -> None:
         (509, 36, "screen"), (548, 58, "cream"), (602, 27, "gold"), (620, 82, "screen"),
     ]:
         c.rect(x, y, 2, 2, COLORS[color])
+
+
+def draw_sparkles(c: Canvas, points: list[tuple[int, int, str]]) -> None:
+    for x, y, color in points:
+        c.rect(x, y - 3, 2, 8, COLORS[color])
+        c.rect(x - 3, y, 8, 2, COLORS[color])
 
 
 def draw_room_shell(c: Canvas, width: int, height: int) -> None:
@@ -431,6 +474,8 @@ def generate_status(summary: dict) -> None:
     c.rect(642, 258, 6, 14, COLORS["green"])
     c.rect(628, 251, 18, 11, COLORS["green"])
     c.rect(650, 251, 18, 11, COLORS["green"])
+    c.pixel_circle(820, 302, 18, COLORS["gold"], COLORS["line"])
+    c.diamond(780, 296, 13, COLORS["purple"], COLORS["line"])
     c.text(f"SYNC {summary['updated']}", 686, 300, COLORS["paper"], 1)
     c.save_png(ASSETS / "status-board.png")
 
@@ -467,40 +512,158 @@ def draw_icon(c: Canvas, name: str, x: int, y: int) -> None:
 def generate_inventory() -> None:
     c = Canvas(960, 220, COLORS["ink"])
     c.rect(0, 0, 960, 220, COLORS["night"])
+    c.rect(24, 24, 912, 142, COLORS["wall"])
+    c.rect(34, 34, 892, 122, COLORS["void"])
+    draw_sparkles(c, [(78, 52, "screen"), (274, 42, "gold"), (522, 55, "cream"), (832, 44, "screen")])
     c.text("INVENTORY", 44, 36, COLORS["cream"], 2)
     items = [("Rust", "SYSTEMS"), ("Game", "GAME DEV"), ("Web", "WEB"), ("Auto", "AUTOMATION"), ("Notes", "NOTES")]
     for index, (name, label) in enumerate(items):
-        x = 52 + index * 174
-        c.frame(x, 76, 132, 92, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-        draw_icon(c, name, x + 42, 92)
-        c.centered_text(name, x + 66, 134, COLORS["cream"], 1)
-        c.centered_text(label, x + 66, 150, COLORS["screen"], 1)
+        cx = 132 + index * 174
+        c.rect(cx - 52, 142, 104, 10, COLORS["wood_dark"])
+        c.rect(cx - 42, 132, 84, 10, COLORS["wood"])
+        c.rect(cx - 24, 92, 48, 44, COLORS["wall_3"])
+        draw_icon(c, name, cx - 24, 84)
+        c.centered_text(name, cx, 154, COLORS["cream"], 1)
+        c.centered_text(label, cx, 170, COLORS["screen"], 1)
     c.rect(44, 186, 872, 4, COLORS["line"])
     c.rect(44, 186, 270, 4, COLORS["gold"])
     c.save_png(ASSETS / "inventory.png")
 
 
+def generate_portal(filename: str, title: str, subtitle: str, accent: str, icon: str) -> None:
+    c = Canvas(300, 120, COLORS["ink"])
+    c.rect(0, 0, 300, 120, COLORS["night"])
+    c.rect(8, 8, 284, 104, COLORS["line"])
+    c.rect(12, 12, 276, 96, COLORS["wall_2"])
+    c.rect(18, 18, 264, 84, COLORS["void"])
+    c.pixel_circle(60, 60, 35, COLORS["wall_2"], COLORS["line"])
+    c.pixel_circle(60, 60, 25, accent, COLORS["screen_dim"])
+    c.pixel_circle(60, 60, 12, COLORS["void"], COLORS["cream"])
+
+    if icon == "blog":
+        c.rect(48, 41, 25, 34, COLORS["paper"])
+        c.rect(54, 50, 13, 2, COLORS["line"])
+        c.rect(54, 57, 13, 2, COLORS["line"])
+        c.rect(54, 64, 9, 2, COLORS["line"])
+    elif icon == "github":
+        c.rect(46, 48, 29, 21, COLORS["ink"])
+        c.rect(50, 42, 6, 8, COLORS["cream"])
+        c.rect(65, 42, 6, 8, COLORS["cream"])
+        c.rect(54, 57, 4, 4, COLORS["cream"])
+        c.rect(64, 57, 4, 4, COLORS["cream"])
+        c.rect(57, 68, 9, 5, COLORS["cream"])
+    else:
+        c.diamond(60, 57, 19, COLORS["purple"], COLORS["cream"])
+        c.rect(57, 43, 6, 28, COLORS["void"])
+        c.rect(46, 54, 28, 6, COLORS["void"])
+
+    draw_sparkles(c, [(30, 28, "screen"), (91, 31, "gold"), (29, 88, "cream"), (92, 84, "screen")])
+    c.text(title, 118, 36, COLORS["cream"], 2)
+    c.text(subtitle, 119, 72, COLORS["screen"], 1)
+    c.rect(118, 92, 118, 4, COLORS["line"])
+    c.rect(118, 92, 62, 4, accent)
+    c.save_png(ASSETS / filename)
+
+
+def generate_portals() -> None:
+    generate_portal("portal-blog.png", "BLOG", "FIELD NOTES", COLORS["gold"], "blog")
+    generate_portal("portal-github.png", "GITHUB", "SOURCE VAULT", COLORS["teal"], "github")
+    generate_portal("portal-notes.png", "NOTES", "WORKBENCH", COLORS["purple"], "notes")
+
+
+def generate_quest_map(summary: dict) -> None:
+    c = Canvas(960, 300, COLORS["ink"])
+    c.rect(0, 0, 960, 300, COLORS["night"])
+    c.rect(20, 18, 920, 238, COLORS["wall"])
+    c.rect(32, 30, 896, 214, COLORS["void"])
+    c.rect(44, 42, 872, 190, "#0C1830")
+    draw_sparkles(
+        c,
+        [
+            (96, 72, "screen"),
+            (154, 184, "cream"),
+            (306, 74, "gold"),
+            (444, 196, "screen"),
+            (690, 64, "cream"),
+            (836, 178, "gold"),
+        ],
+    )
+    c.text("QUEST ROUTE", 76, 72, COLORS["cream"], 2)
+    c.text("SMALL TOOLS / GAME FEEL / PUBLIC NOTES", 76, 108, COLORS["screen"], 1)
+
+    points = [(142, 184), (286, 122), (436, 176), (610, 104), (780, 170)]
+    for (x0, y0), (x1, y1) in zip(points, points[1:]):
+        c.line(x0, y0, x1, y1, COLORS["screen_dim"])
+        c.line(x0, y0 + 1, x1, y1 + 1, COLORS["purple"])
+    for index, (x, y) in enumerate(points):
+        fill = [COLORS["rust"], COLORS["screen"], COLORS["green"], COLORS["purple"], COLORS["gold"]][index]
+        c.pixel_circle(x, y, 18, fill, COLORS["cream"])
+        c.diamond(x, y, 9, COLORS["void"], COLORS["line"])
+
+    labels = [
+        ("SYSTEMS", 96, 214),
+        ("GAME FEEL", 244, 88),
+        ("WEB TOOLS", 390, 208),
+        ("AUTOMATION", 556, 70),
+        ("NOTES", 746, 206),
+    ]
+    for label, x, y in labels:
+        c.text(label, x, y, COLORS["cream"], 1)
+
+    latest = truncate((summary["latest"][0].get("name") if summary["latest"] else "ready"), 20)
+    c.frame(584, 198, 284, 38, COLORS["wall_2"], COLORS["line"], COLORS["void"])
+    c.text("NOW", 610, 210, COLORS["gold"], 1)
+    c.text(latest, 662, 210, COLORS["cream"], 1)
+    c.rect(824, 78, 34, 34, COLORS["wall_3"])
+    c.rect(834, 58, 14, 20, COLORS["green"])
+    c.rect(816, 112, 50, 6, COLORS["line"])
+    c.rect(404, 98, 58, 16, COLORS["wall_3"])
+    c.rect(414, 104, 32, 3, COLORS["screen"])
+    c.rect(470, 90, 30, 42, COLORS["wood_dark"])
+    c.rect(478, 98, 14, 14, COLORS["gold"])
+    c.rect(52, 242, 856, 4, COLORS["line"])
+    c.rect(52, 242, 612, 4, COLORS["purple"])
+    c.save_png(ASSETS / "quest-map.png")
+
+
+def generate_footer_sign(summary: dict) -> None:
+    c = Canvas(960, 150, COLORS["ink"])
+    c.rect(0, 0, 960, 150, COLORS["night"])
+    c.rect(48, 42, 864, 52, COLORS["line"])
+    c.rect(56, 34, 848, 52, COLORS["wood_dark"])
+    c.rect(68, 44, 824, 32, COLORS["wood"])
+    c.text("SAVE POINT REACHED", 108, 55, COLORS["paper"], 2)
+    c.text("LD000", 700, 55, COLORS["gold"], 2)
+    c.pixel_circle(78, 60, 18, COLORS["screen"], COLORS["cream"])
+    c.diamond(858, 60, 18, COLORS["purple"], COLORS["cream"])
+    c.text(f"LAST SYNC {summary['updated']}", 354, 111, COLORS["muted"], 1)
+    c.save_png(ASSETS / "footer-sign.png")
+
+
 def generate_project_cards() -> None:
     for index, (repo, title, subtitle) in enumerate(PROJECTS):
-        c = Canvas(640, 180, COLORS["ink"])
-        c.rect(0, 0, 640, 180, COLORS["night"])
-        c.frame(26, 22, 588, 126, COLORS["wall_2"], COLORS["line"], COLORS["void"])
+        c = Canvas(640, 190, COLORS["ink"])
+        c.rect(0, 0, 640, 190, COLORS["night"])
+        c.frame(26, 22, 588, 132, COLORS["wall_2"], COLORS["line"], COLORS["void"])
+        draw_sparkles(c, [(40, 34, "screen"), (586, 42, "gold"), (604, 144, "cream")])
         if index % 2 == 0:
             c.rect(58, 54, 100, 64, COLORS["wood_dark"])
             c.rect(72, 40, 72, 24, COLORS["gold"])
             c.rect(80, 72, 54, 32, COLORS["ink"])
             c.rect(92, 84, 30, 6, COLORS["screen"])
+            c.diamond(146, 104, 16, COLORS["purple"], COLORS["line"])
         else:
             c.rect(64, 42, 96, 86, COLORS["wall_3"])
             c.rect(76, 54, 72, 28, COLORS["ink"])
             c.rect(92, 92, 40, 24, COLORS["void"])
             c.rect(88, 60, 44, 6, COLORS["screen"])
+            c.pixel_circle(150, 111, 15, COLORS["gold"], COLORS["line"])
         c.text(f"0{index + 1}", 200, 52, COLORS["gold"], 2)
         c.text(title, 250, 50, COLORS["cream"], 2)
         c.text(subtitle, 252, 90, COLORS["screen"], 1)
         c.text(repo, 252, 112, COLORS["paper"], 1)
-        c.rect(74, 140, 496, 4, COLORS["line"])
-        c.rect(74, 140, 110 + index * 74, 4, COLORS["gold"])
+        c.rect(74, 146, 496, 4, COLORS["line"])
+        c.rect(74, 146, 110 + index * 74, 4, COLORS["gold"])
         c.save_png(ASSETS / f"project-{repo}.png")
 
 
@@ -517,7 +680,10 @@ def main() -> int:
     ASSETS.mkdir(parents=True, exist_ok=True)
     generate_status(summary)
     generate_inventory()
+    generate_portals()
+    generate_quest_map(summary)
     generate_project_cards()
+    generate_footer_sign(summary)
     print(f"Generated supporting PNG profile assets for {USERNAME} at {summary['updated']}")
     return 0
 
