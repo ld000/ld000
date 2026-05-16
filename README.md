@@ -2,8 +2,8 @@
 
 ![ld000 pixel title screen](./assets/pixel-hero.svg)
 
-[![Blog](https://img.shields.io/badge/BLOG-ld000.space-6fffd2?style=for-the-badge&labelColor=071a1a&logo=hugo&logoColor=6fffd2)](https://ld000.space/)
-[![GitHub](https://img.shields.io/badge/GITHUB-ld000-ffd166?style=for-the-badge&labelColor=071a1a&logo=github&logoColor=ffd166)](https://github.com/ld000)
+[![Blog](https://img.shields.io/badge/BLOG-ld000.space-64D2FF?style=for-the-badge&labelColor=101622&logo=hugo&logoColor=64D2FF)](https://ld000.space/)
+[![GitHub](https://img.shields.io/badge/GITHUB-ld000-FFD166?style=for-the-badge&labelColor=101622&logo=github&logoColor=FFD166)](https://github.com/ld000)
 
 </div>
 

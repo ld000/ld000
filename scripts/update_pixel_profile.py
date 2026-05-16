@@ -26,35 +26,39 @@ USER_AGENT = "ld000-pixel-profile-generator"
 
 
 PALETTE = {
-    "ink": "#15131A",
-    "shadow": "#0D0B12",
-    "panel": "#272034",
-    "panel_2": "#32283F",
-    "panel_3": "#3B3149",
-    "text": "#F2D6A2",
-    "screen": "#8FD6C2",
-    "screen_dim": "#467E72",
-    "accent": "#F28F6B",
-    "accent_dim": "#8E4F4C",
-    "muted": "#6E5A7E",
-    "cream_dim": "#BFA77E",
-    "desk": "#211A25",
-    "line": "#51445E",
+    "ink": "#101622",
+    "shadow": "#070B12",
+    "panel": "#18243B",
+    "panel_2": "#24344F",
+    "panel_3": "#2E405E",
+    "text": "#E9DCC9",
+    "screen": "#64D2FF",
+    "screen_dim": "#287A95",
+    "accent": "#FFD166",
+    "accent_dim": "#8A5A3C",
+    "muted": "#6F7B91",
+    "cream_dim": "#BFAE92",
+    "desk": "#8A5A3C",
+    "line": "#3D4E68",
+    "leaf": "#6BCB77",
+    "paper": "#E9DCC9",
+    "night": "#0B1020",
+    "lamp": "#FFD166",
 }
 
 
 LANG_COLORS = {
-    "Rust": "#F28F6B",
-    "Python": "#8FD6C2",
-    "JavaScript": "#F2D6A2",
-    "TypeScript": "#8FD6C2",
-    "Shell": "#BFA77E",
-    "SCSS": "#D87872",
-    "CSS": "#9EC89A",
+    "Rust": "#FF9B71",
+    "Python": "#64D2FF",
+    "JavaScript": "#FFD166",
+    "TypeScript": "#64D2FF",
+    "Shell": "#E9DCC9",
+    "SCSS": "#F28FB3",
+    "CSS": "#6BCB77",
     "Java": "#D99B64",
-    "GDScript": "#8FD6C2",
-    "C#": "#9EC89A",
-    "HTML": "#F28F6B",
+    "GDScript": "#64D2FF",
+    "C#": "#6BCB77",
+    "HTML": "#FF9B71",
 }
 
 
@@ -139,6 +143,10 @@ def rect(x: int, y: int, w: int, h: int, fill: str) -> str:
     return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{fill}"/>'
 
 
+def polygon(points: str, fill: str) -> str:
+    return f'<polygon points="{points}" fill="{fill}"/>'
+
+
 def text(
     value: object,
     x: int,
@@ -200,142 +208,234 @@ def generate_hero(summary: dict) -> str:
 
     parts = [
         rect(0, 0, 960, 320, PALETTE["ink"]),
-        rect(32, 32, 896, 256, PALETTE["panel"]),
-        rect(40, 40, 880, 240, PALETTE["ink"]),
-        rect(0, 244, 960, 76, PALETTE["desk"]),
-        rect(32, 244, 896, 8, PALETTE["line"]),
-        rect(112, 256, 736, 16, PALETTE["shadow"]),
-        rect(352, 224, 256, 20, PALETTE["shadow"]),
+        rect(24, 24, 912, 248, PALETTE["panel"]),
+        rect(32, 32, 896, 232, PALETTE["night"]),
+        rect(0, 228, 960, 92, PALETTE["desk"]),
+        rect(0, 252, 960, 68, "#6F432D"),
+        rect(32, 228, 896, 8, "#B17647"),
+        rect(72, 264, 816, 18, PALETTE["shadow"]),
     ]
 
-    parts += pixel_frame(296, 52, 368, 188, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
+    # Left window: moonlit skyline and a tiny passing ship.
+    parts += pixel_frame(64, 48, 248, 148, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
     parts += [
-        rect(320, 76, 320, 124, PALETTE["shadow"]),
-        rect(328, 84, 304, 108, PALETTE["panel"]),
-        rect(336, 92, 288, 92, PALETTE["screen_dim"]),
-        rect(344, 100, 272, 76, PALETTE["ink"]),
-        text("LD000", 480, 130, 52, PALETTE["text"], "middle"),
-        text("RUST / GAMES / TOOLS / NOTES", 480, 160, 16, PALETTE["screen"], "middle", "small"),
-        rect(360, 176, 72, 4, PALETTE["accent"]),
-        rect(444, 176, 88, 4, PALETTE["screen"]),
-        rect(544, 176, 56, 4, PALETTE["cream_dim"]),
-        rect(424, 204, 112, 16, PALETTE["shadow"]),
-        rect(384, 228, 192, 12, PALETTE["panel_3"]),
-        rect(392, 232, 176, 4, PALETTE["muted"]),
+        rect(84, 68, 208, 104, PALETTE["shadow"]),
+        rect(92, 76, 192, 88, "#0C1830"),
+        rect(184, 76, 4, 88, PALETTE["line"]),
+        rect(92, 116, 192, 4, PALETTE["line"]),
+        rect(240, 84, 20, 20, PALETTE["paper"]),
+        rect(236, 84, 8, 8, "#0C1830"),
+        rect(116, 92, 6, 6, PALETTE["screen"]),
+        rect(144, 104, 4, 4, PALETTE["paper"]),
+        rect(268, 132, 4, 4, PALETTE["screen"]),
+        polygon("130,120 158,108 198,108 222,120 194,132 154,132", PALETTE["screen_dim"]),
+        rect(160, 112, 32, 8, PALETTE["screen"]),
+        rect(130, 124, 16, 4, PALETTE["accent"]),
+        rect(224, 124, 20, 4, PALETTE["accent"]),
+        rect(108, 144, 28, 20, PALETTE["panel"]),
+        rect(140, 136, 28, 28, PALETTE["panel_3"]),
+        rect(172, 148, 36, 16, PALETTE["panel"]),
+        rect(216, 132, 32, 32, PALETTE["panel_3"]),
+        rect(116, 148, 4, 4, PALETTE["screen"]),
+        rect(148, 144, 4, 8, PALETTE["screen_dim"]),
+        rect(224, 140, 4, 4, PALETTE["screen"]),
+    ]
+
+    # Desk lamp, books, plant, coffee, cables, and tiny device props.
+    parts += [
+        rect(96, 216, 116, 12, "#5F3B28"),
+        rect(116, 200, 72, 16, "#FF9B71"),
+        rect(128, 188, 48, 12, PALETTE["paper"]),
+        rect(144, 172, 20, 16, PALETTE["muted"]),
+        rect(156, 132, 8, 40, PALETTE["line"]),
+        polygon("120,112 204,112 188,132 136,132", PALETTE["lamp"]),
+        rect(136, 120, 52, 8, PALETTE["paper"]),
+        rect(86, 244, 100, 16, PALETTE["shadow"]),
+        rect(96, 224, 72, 20, PALETTE["panel_3"]),
+        rect(104, 232, 24, 4, PALETTE["screen"]),
+        rect(136, 232, 20, 4, PALETTE["paper"]),
+        rect(216, 244, 40, 24, PALETTE["shadow"]),
+        rect(224, 224, 24, 20, PALETTE["accent_dim"]),
+        rect(228, 216, 16, 8, PALETTE["paper"]),
+        rect(254, 244, 80, 12, PALETTE["shadow"]),
+        rect(274, 222, 40, 24, PALETTE["panel_3"]),
+        rect(290, 202, 8, 20, PALETTE["leaf"]),
+        rect(278, 194, 16, 12, PALETTE["leaf"]),
+        rect(298, 194, 16, 12, PALETTE["leaf"]),
+        rect(314, 234, 8, 12, PALETTE["line"]),
+        rect(726, 244, 104, 16, PALETTE["shadow"]),
+        rect(740, 222, 68, 24, PALETTE["panel_3"]),
+        rect(752, 230, 44, 4, PALETTE["screen"]),
+        rect(836, 244, 48, 24, PALETTE["accent_dim"]),
+        rect(844, 232, 28, 12, PALETTE["paper"]),
+        rect(614, 246, 56, 4, PALETTE["line"]),
+        rect(666, 246, 8, 8, PALETTE["line"]),
+        rect(674, 254, 64, 4, PALETTE["line"]),
+    ]
+
+    # Main terminal keeps the profile identity readable.
+    parts += pixel_frame(336, 52, 304, 176, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
+    parts += [
+        rect(360, 76, 256, 104, PALETTE["shadow"]),
+        rect(368, 84, 240, 88, PALETTE["screen_dim"]),
+        rect(376, 92, 224, 72, PALETTE["ink"]),
+        text("LD000", 488, 124, 50, PALETTE["text"], "middle"),
+        text("RUST / GAMES / TOOLS / NOTES", 488, 154, 15, PALETTE["screen"], "middle", "small"),
+        rect(392, 170, 56, 4, "#FF9B71"),
+        rect(460, 170, 84, 4, PALETTE["screen"]),
+        rect(556, 170, 36, 4, PALETTE["paper"]),
+        rect(438, 190, 100, 20, PALETTE["shadow"]),
+        rect(394, 214, 188, 14, PALETTE["panel_3"]),
+        rect(402, 220, 172, 4, PALETTE["muted"]),
     ]
 
     parts += [
-        rect(96, 192, 120, 12, PALETTE["line"]),
-        rect(112, 176, 88, 16, PALETTE["accent"]),
-        rect(124, 160, 64, 16, PALETTE["text"]),
-        rect(136, 144, 40, 16, PALETTE["muted"]),
-        rect(160, 92, 12, 52, PALETTE["line"]),
-        rect(124, 76, 72, 20, PALETTE["accent"]),
-        rect(132, 84, 56, 8, PALETTE["text"]),
-        rect(192, 252, 120, 24, PALETTE["shadow"]),
-        rect(204, 236, 96, 16, PALETTE["panel_3"]),
-        rect(212, 240, 32, 4, PALETTE["screen"]),
-        rect(252, 240, 32, 4, PALETTE["cream_dim"]),
-        rect(724, 224, 92, 40, PALETTE["shadow"]),
-        rect(736, 204, 68, 20, PALETTE["panel_3"]),
-        rect(748, 212, 44, 4, PALETTE["screen"]),
-        rect(824, 252, 44, 24, PALETTE["accent_dim"]),
-        rect(832, 240, 28, 12, PALETTE["text"]),
+        rect(660, 56, 224, 136, PALETTE["shadow"]),
+        rect(660, 56, 216, 128, PALETTE["panel_2"]),
+        rect(660, 56, 216, 8, PALETTE["line"]),
+        rect(660, 176, 216, 8, PALETTE["line"]),
+        rect(668, 72, 52, 36, PALETTE["paper"]),
+        rect(728, 72, 60, 36, "#FFE6A7"),
+        rect(796, 72, 52, 36, PALETTE["paper"]),
+        rect(676, 84, 32, 4, PALETTE["line"]),
+        rect(736, 84, 36, 4, PALETTE["line"]),
+        rect(804, 84, 28, 4, PALETTE["line"]),
+    ]
+    parts += [
+        text("STATUS", 688, 128, 17, PALETTE["text"], klass="small"),
+        text(f"REPOS {summary['public_repos']}", 688, 150, 14, PALETTE["screen"], klass="small"),
+        text(f"STARS {summary['total_stars']}", 776, 150, 14, PALETTE["screen"], klass="small"),
+        text(f"FOLLOWERS {summary['followers']}", 688, 170, 14, PALETTE["screen"], klass="small"),
+        rect(844, 104, 12, 52, PALETTE["line"]),
+        rect(836, 156, 28, 12, PALETTE["lamp"]),
+        rect(840, 168, 20, 12, PALETTE["paper"]),
     ]
 
-    parts += pixel_frame(696, 64, 176, 128, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
+    parts += pixel_frame(320, 252, 320, 40, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
     parts += [
-        text("STATUS", 724, 96, 18, PALETTE["text"], klass="small"),
-        text(f"REPOS {summary['public_repos']}", 724, 124, 15, PALETTE["screen"], klass="small"),
-        text(f"STARS {summary['total_stars']}", 724, 148, 15, PALETTE["screen"], klass="small"),
-        text(f"FOLLOWERS {summary['followers']}", 724, 172, 15, PALETTE["screen"], klass="small"),
-    ]
-
-    parts += pixel_frame(320, 260, 320, 36, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
-    parts += [
-        text(f"QUEST: {latest_label}", 480, 284, 15, PALETTE["text"], "middle", "small"),
-        text(f"SYNC {summary['updated']}", 816, 292, 13, PALETTE["cream_dim"], "middle", "small"),
+        rect(340, 264, 12, 12, PALETTE["lamp"]),
+        text(f"QUEST: {latest_label}", 488, 278, 15, PALETTE["text"], "middle", "small"),
+        text(f"SYNC {summary['updated']}", 812, 292, 13, PALETTE["paper"], "middle", "small"),
     ]
     return svg_shell(
         960,
         320,
         "\n".join(f"  {part}" for part in parts),
         "ld000 pixel profile title screen",
-        "A warm pixel terminal desk banner with GitHub counters.",
+        "A cozy pixel developer room with a night desk, terminal, and GitHub counters.",
     )
 
 
 def generate_status(summary: dict) -> str:
     parts = [
         rect(0, 0, 960, 360, PALETTE["ink"]),
-        rect(40, 32, 880, 296, PALETTE["panel"]),
-        rect(48, 40, 864, 280, PALETTE["ink"]),
-        rect(64, 56, 832, 248, PALETTE["panel"]),
+        rect(40, 32, 880, 288, PALETTE["panel"]),
+        rect(48, 40, 864, 272, PALETTE["night"]),
+        rect(56, 264, 848, 48, PALETTE["desk"]),
+        rect(56, 288, 848, 24, "#6F432D"),
+        rect(64, 72, 832, 192, "#142039"),
     ]
 
-    parts += pixel_frame(88, 72, 216, 204, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
+    # A single wall scene: shelf, status notes, terminal prompt, and desktop props.
     parts += [
-        text("PROFILE", 112, 108, 22, PALETTE["text"]),
-        text("PUBLIC COUNTERS", 112, 132, 13, PALETTE["screen"], klass="small"),
-        rect(112, 148, 152, 4, PALETTE["muted"]),
+        rect(88, 104, 212, 12, PALETTE["line"]),
+        rect(104, 76, 20, 28, "#FF9B71"),
+        rect(132, 84, 14, 20, PALETTE["paper"]),
+        rect(154, 72, 18, 32, PALETTE["screen"]),
+        rect(182, 92, 56, 12, PALETTE["muted"]),
+        rect(248, 80, 16, 24, PALETTE["lamp"]),
+        rect(268, 88, 12, 16, PALETTE["paper"]),
+        rect(104, 136, 76, 56, PALETTE["paper"]),
+        rect(112, 148, 44, 4, PALETTE["line"]),
+        rect(112, 162, 52, 4, PALETTE["line"]),
+        rect(112, 176, 36, 4, PALETTE["line"]),
+        rect(196, 132, 88, 64, "#FFE6A7"),
+        rect(208, 148, 48, 4, PALETTE["line"]),
+        rect(208, 162, 56, 4, PALETTE["line"]),
+        text("COUNTERS", 112, 224, 18, PALETTE["text"], klass="small"),
     ]
 
     stat_items = [
-        ("REPOS", summary["public_repos"], 112, 180),
-        ("STARS", summary["total_stars"], 112, 218),
-        ("FOLLOWERS", summary["followers"], 112, 256),
+        ("REPOS", summary["public_repos"], 112, 244, 84),
+        ("STARS", summary["total_stars"], 208, 244, 84),
+        ("FOLLOWERS", summary["followers"], 112, 264, 128),
     ]
-    for label, value, x, y in stat_items:
+    for label, value, x, y, width in stat_items:
         parts += [
-            rect(x, y - 18, 152, 32, PALETTE["shadow"]),
-            rect(x + 8, y - 10, 40, 4, PALETTE["accent"]),
-            text(label, x + 64, y - 1, 12, PALETTE["screen"], klass="small"),
-            text(value, x + 148, y + 15, 15, PALETTE["text"], "end"),
+            rect(x, y - 12, width, 16, PALETTE["shadow"]),
+            rect(x + 6, y - 6, 16, 4, PALETTE["lamp"]),
+            text(label, x + 28, y + 1, 10, PALETTE["screen"], klass="small"),
+            text(value, x + width - 4, y + 1, 12, PALETTE["text"], "end", "small"),
         ]
 
-    parts += pixel_frame(328, 72, 256, 204, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
+    # Center terminal output sits on the same desk, not in a separate card.
     parts += [
-        text("LATEST QUESTS", 352, 108, 22, PALETTE["text"]),
-        text("RECENT PUSH TRAIL", 352, 132, 13, PALETTE["accent"], klass="small"),
-        rect(352, 148, 176, 4, PALETTE["muted"]),
+        rect(328, 88, 280, 168, PALETTE["shadow"]),
+        rect(320, 80, 280, 168, PALETTE["panel_2"]),
+        rect(336, 104, 248, 112, PALETTE["ink"]),
+        rect(344, 112, 232, 96, "#09131E"),
+        rect(400, 224, 112, 20, PALETTE["shadow"]),
+        rect(360, 248, 192, 12, PALETTE["panel_3"]),
+        text("LATEST QUESTS", 344, 100, 20, PALETTE["text"]),
+        rect(548, 88, 24, 24, PALETTE["lamp"]),
+        rect(552, 92, 16, 16, PALETTE["paper"]),
     ]
     for index, repo in enumerate(summary["latest"][:5]):
-        y = 172 + index * 20
+        y = 132 + index * 14
         name = truncate(repo.get("name") or "unknown", 15)
         lang = truncate(repo.get("language") or "Unknown", 7)
         stars = repo.get("stargazers_count") or 0
-        marker = "accent" if index == 0 else "muted"
+        marker = "lamp" if index == 0 else "screen"
         parts += [
-            rect(352, y - 13, 8, 8, PALETTE[marker]),
-            text(name, 372, y, 13, PALETTE["text"], klass="small"),
-            text(f"{lang} *{stars}", 560, y, 11, PALETTE["screen"], "end", "small"),
+            text(">", 352, y, 11, PALETTE[marker], klass="small"),
+            text(name, 368, y, 11, PALETTE["text"], klass="small"),
+            text(f"{lang} *{stars}", 568, y, 10, PALETTE["screen"], "end", "small"),
         ]
-
-    parts += pixel_frame(608, 72, 264, 204, PALETTE["panel_2"], PALETTE["line"], PALETTE["shadow"])
     parts += [
-        text("LANGUAGE MAP", 632, 108, 22, PALETTE["text"]),
-        text("ACTIVE REPO CLUSTERS", 632, 132, 13, PALETTE["screen"], klass="small"),
-        rect(632, 148, 184, 4, PALETTE["muted"]),
+        rect(336, 268, 48, 12, "#FF9B71"),
+        rect(392, 268, 72, 12, PALETTE["paper"]),
+        rect(472, 268, 56, 12, PALETTE["screen_dim"]),
+    ]
+
+    # Right side: language bookshelf, gauge, plant, and a ship badge.
+    parts += [
+        rect(640, 100, 224, 12, PALETTE["line"]),
+        rect(652, 68, 16, 32, "#FF9B71"),
+        rect(672, 80, 16, 20, PALETTE["screen"]),
+        rect(692, 72, 16, 28, PALETTE["paper"]),
+        rect(712, 88, 44, 12, PALETTE["muted"]),
+        polygon("778,70 810,58 842,70 812,82", PALETTE["screen_dim"]),
+        rect(802, 64, 24, 6, PALETTE["screen"]),
+        rect(768, 74, 16, 4, PALETTE["lamp"]),
+        rect(842, 74, 16, 4, PALETTE["lamp"]),
+        text("LANGUAGE MAP", 648, 134, 20, PALETTE["text"]),
+        text("ACTIVE CLUSTERS", 648, 154, 12, PALETTE["screen"], klass="small"),
+        rect(648, 164, 184, 4, PALETTE["muted"]),
+        rect(696, 268, 48, 24, PALETTE["shadow"]),
+        rect(708, 244, 24, 24, PALETTE["screen_dim"]),
+        rect(716, 232, 8, 12, PALETTE["leaf"]),
+        rect(704, 228, 16, 12, PALETTE["leaf"]),
+        rect(724, 228, 16, 12, PALETTE["leaf"]),
     ]
     max_count = max([count for _, count in summary["top_languages"]] or [1])
     for index, (language, count) in enumerate(summary["top_languages"][:6]):
-        y = 172 + index * 16
+        y = 184 + index * 13
         bar_width = max(16, int(104 * count / max_count))
         color = LANG_COLORS.get(language, PALETTE["screen"])
         parts += [
-            text(truncate(language, 8), 632, y, 11, PALETTE["text"], klass="small"),
-            rect(724, y - 9, 112, 8, PALETTE["shadow"]),
-            rect(728, y - 7, bar_width, 4, color),
-            text(count, 852, y, 11, PALETTE["cream_dim"], "end", "small"),
+            text(truncate(language, 8), 648, y, 10, PALETTE["text"], klass="small"),
+            rect(724, y - 8, 112, 8, PALETTE["shadow"]),
+            rect(728, y - 6, bar_width, 4, color),
+            text(count, 852, y, 10, PALETTE["paper"], "end", "small"),
         ]
 
     parts += [
-        rect(88, 280, 784, 24, PALETTE["shadow"]),
-        rect(104, 288, 408, 4, PALETTE["screen"]),
-        rect(512, 288, 88, 4, PALETTE["accent"]),
-        rect(600, 288, 64, 4, PALETTE["muted"]),
-        rect(696, 282, 160, 16, PALETTE["panel_3"]),
-        text(f"SYNC {summary['updated']}", 844, 294, 12, PALETTE["cream_dim"], "end", "small"),
+        rect(760, 270, 108, 18, PALETTE["shadow"]),
+        rect(772, 274, 80, 4, PALETTE["screen"]),
+        rect(104, 292, 520, 4, PALETTE["screen"]),
+        rect(624, 292, 88, 4, PALETTE["lamp"]),
+        rect(712, 292, 64, 4, PALETTE["muted"]),
+        text(f"SYNC {summary['updated']}", 856, 296, 12, PALETTE["paper"], "end", "small"),
     ]
 
     return svg_shell(
@@ -343,7 +443,7 @@ def generate_status(summary: dict) -> str:
         360,
         "\n".join(f"  {part}" for part in parts),
         "ld000 pixel status board",
-        "A warm pixel developer status board generated from public GitHub profile data.",
+        "A pixel developer room status board with counters, recent quests, and language shelves.",
     )
 
 

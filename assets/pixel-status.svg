@@ -1,87 +1,115 @@
 <svg width="960" height="360" viewBox="0 0 960 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">ld000 pixel status board</title>
-  <desc id="desc">A warm pixel developer status board generated from public GitHub profile data.</desc>
+  <desc id="desc">A pixel developer room status board with counters, recent quests, and language shelves.</desc>
   <style>
     .label { font-family: "Courier New", monospace; font-weight: 700; }
     .small { font-family: "Courier New", monospace; font-weight: 700; }
   </style>
-  <rect x="0" y="0" width="960" height="360" fill="#15131A"/>
-  <rect x="40" y="32" width="880" height="296" fill="#272034"/>
-  <rect x="48" y="40" width="864" height="280" fill="#15131A"/>
-  <rect x="64" y="56" width="832" height="248" fill="#272034"/>
-  <rect x="96" y="80" width="216" height="204" fill="#0D0B12"/>
-  <rect x="88" y="72" width="216" height="204" fill="#51445E"/>
-  <rect x="94" y="78" width="204" height="192" fill="#32283F"/>
-  <text class="label" x="112" y="108" text-anchor="start" font-size="22" fill="#F2D6A2">PROFILE</text>
-  <text class="small" x="112" y="132" text-anchor="start" font-size="13" fill="#8FD6C2">PUBLIC COUNTERS</text>
-  <rect x="112" y="148" width="152" height="4" fill="#6E5A7E"/>
-  <rect x="112" y="162" width="152" height="32" fill="#0D0B12"/>
-  <rect x="120" y="170" width="40" height="4" fill="#F28F6B"/>
-  <text class="small" x="176" y="179" text-anchor="start" font-size="12" fill="#8FD6C2">REPOS</text>
-  <text class="label" x="260" y="195" text-anchor="end" font-size="15" fill="#F2D6A2">57</text>
-  <rect x="112" y="200" width="152" height="32" fill="#0D0B12"/>
-  <rect x="120" y="208" width="40" height="4" fill="#F28F6B"/>
-  <text class="small" x="176" y="217" text-anchor="start" font-size="12" fill="#8FD6C2">STARS</text>
-  <text class="label" x="260" y="233" text-anchor="end" font-size="15" fill="#F2D6A2">27</text>
-  <rect x="112" y="238" width="152" height="32" fill="#0D0B12"/>
-  <rect x="120" y="246" width="40" height="4" fill="#F28F6B"/>
-  <text class="small" x="176" y="255" text-anchor="start" font-size="12" fill="#8FD6C2">FOLLOWERS</text>
-  <text class="label" x="260" y="271" text-anchor="end" font-size="15" fill="#F2D6A2">17</text>
-  <rect x="336" y="80" width="256" height="204" fill="#0D0B12"/>
-  <rect x="328" y="72" width="256" height="204" fill="#51445E"/>
-  <rect x="334" y="78" width="244" height="192" fill="#32283F"/>
-  <text class="label" x="352" y="108" text-anchor="start" font-size="22" fill="#F2D6A2">LATEST QUESTS</text>
-  <text class="small" x="352" y="132" text-anchor="start" font-size="13" fill="#F28F6B">RECENT PUSH TRAIL</text>
-  <rect x="352" y="148" width="176" height="4" fill="#6E5A7E"/>
-  <rect x="352" y="159" width="8" height="8" fill="#F28F6B"/>
-  <text class="small" x="372" y="172" text-anchor="start" font-size="13" fill="#F2D6A2">blog-hugo</text>
-  <text class="small" x="560" y="172" text-anchor="end" font-size="11" fill="#8FD6C2">SCSS *0</text>
-  <rect x="352" y="179" width="8" height="8" fill="#6E5A7E"/>
-  <text class="small" x="372" y="192" text-anchor="start" font-size="13" fill="#F2D6A2">pokemind-agent</text>
-  <text class="small" x="560" y="192" text-anchor="end" font-size="11" fill="#8FD6C2">Unknown *0</text>
-  <rect x="352" y="199" width="8" height="8" fill="#6E5A7E"/>
-  <text class="small" x="372" y="212" text-anchor="start" font-size="13" fill="#F2D6A2">silksong_tutor.</text>
-  <text class="small" x="560" y="212" text-anchor="end" font-size="11" fill="#8FD6C2">GDScri. *0</text>
-  <rect x="352" y="219" width="8" height="8" fill="#6E5A7E"/>
-  <text class="small" x="372" y="232" text-anchor="start" font-size="13" fill="#F2D6A2">dfun</text>
-  <text class="small" x="560" y="232" text-anchor="end" font-size="11" fill="#8FD6C2">Rust *0</text>
-  <rect x="352" y="239" width="8" height="8" fill="#6E5A7E"/>
-  <text class="small" x="372" y="252" text-anchor="start" font-size="13" fill="#F2D6A2">bevy-tetris</text>
-  <text class="small" x="560" y="252" text-anchor="end" font-size="11" fill="#8FD6C2">Rust *0</text>
-  <rect x="616" y="80" width="264" height="204" fill="#0D0B12"/>
-  <rect x="608" y="72" width="264" height="204" fill="#51445E"/>
-  <rect x="614" y="78" width="252" height="192" fill="#32283F"/>
-  <text class="label" x="632" y="108" text-anchor="start" font-size="22" fill="#F2D6A2">LANGUAGE MAP</text>
-  <text class="small" x="632" y="132" text-anchor="start" font-size="13" fill="#8FD6C2">ACTIVE REPO CLUSTERS</text>
-  <rect x="632" y="148" width="184" height="4" fill="#6E5A7E"/>
-  <text class="small" x="632" y="172" text-anchor="start" font-size="11" fill="#F2D6A2">Rust</text>
-  <rect x="724" y="163" width="112" height="8" fill="#0D0B12"/>
-  <rect x="728" y="165" width="104" height="4" fill="#F28F6B"/>
-  <text class="small" x="852" y="172" text-anchor="end" font-size="11" fill="#BFA77E">8</text>
-  <text class="small" x="632" y="188" text-anchor="start" font-size="11" fill="#F2D6A2">Python</text>
-  <rect x="724" y="179" width="112" height="8" fill="#0D0B12"/>
-  <rect x="728" y="181" width="91" height="4" fill="#8FD6C2"/>
-  <text class="small" x="852" y="188" text-anchor="end" font-size="11" fill="#BFA77E">7</text>
-  <text class="small" x="632" y="204" text-anchor="start" font-size="11" fill="#F2D6A2">JavaScr.</text>
-  <rect x="724" y="195" width="112" height="8" fill="#0D0B12"/>
-  <rect x="728" y="197" width="91" height="4" fill="#F2D6A2"/>
-  <text class="small" x="852" y="204" text-anchor="end" font-size="11" fill="#BFA77E">7</text>
-  <text class="small" x="632" y="220" text-anchor="start" font-size="11" fill="#F2D6A2">Java</text>
-  <rect x="724" y="211" width="112" height="8" fill="#0D0B12"/>
-  <rect x="728" y="213" width="91" height="4" fill="#D99B64"/>
-  <text class="small" x="852" y="220" text-anchor="end" font-size="11" fill="#BFA77E">7</text>
-  <text class="small" x="632" y="236" text-anchor="start" font-size="11" fill="#F2D6A2">Shell</text>
-  <rect x="724" y="227" width="112" height="8" fill="#0D0B12"/>
-  <rect x="728" y="229" width="52" height="4" fill="#BFA77E"/>
-  <text class="small" x="852" y="236" text-anchor="end" font-size="11" fill="#BFA77E">4</text>
-  <text class="small" x="632" y="252" text-anchor="start" font-size="11" fill="#F2D6A2">HTML</text>
-  <rect x="724" y="243" width="112" height="8" fill="#0D0B12"/>
-  <rect x="728" y="245" width="26" height="4" fill="#F28F6B"/>
-  <text class="small" x="852" y="252" text-anchor="end" font-size="11" fill="#BFA77E">2</text>
-  <rect x="88" y="280" width="784" height="24" fill="#0D0B12"/>
-  <rect x="104" y="288" width="408" height="4" fill="#8FD6C2"/>
-  <rect x="512" y="288" width="88" height="4" fill="#F28F6B"/>
-  <rect x="600" y="288" width="64" height="4" fill="#6E5A7E"/>
-  <rect x="696" y="282" width="160" height="16" fill="#3B3149"/>
-  <text class="small" x="844" y="294" text-anchor="end" font-size="12" fill="#BFA77E">SYNC 05-16 04:40 CST</text>
+  <rect x="0" y="0" width="960" height="360" fill="#101622"/>
+  <rect x="40" y="32" width="880" height="288" fill="#18243B"/>
+  <rect x="48" y="40" width="864" height="272" fill="#0B1020"/>
+  <rect x="56" y="264" width="848" height="48" fill="#8A5A3C"/>
+  <rect x="56" y="288" width="848" height="24" fill="#6F432D"/>
+  <rect x="64" y="72" width="832" height="192" fill="#142039"/>
+  <rect x="88" y="104" width="212" height="12" fill="#3D4E68"/>
+  <rect x="104" y="76" width="20" height="28" fill="#FF9B71"/>
+  <rect x="132" y="84" width="14" height="20" fill="#E9DCC9"/>
+  <rect x="154" y="72" width="18" height="32" fill="#64D2FF"/>
+  <rect x="182" y="92" width="56" height="12" fill="#6F7B91"/>
+  <rect x="248" y="80" width="16" height="24" fill="#FFD166"/>
+  <rect x="268" y="88" width="12" height="16" fill="#E9DCC9"/>
+  <rect x="104" y="136" width="76" height="56" fill="#E9DCC9"/>
+  <rect x="112" y="148" width="44" height="4" fill="#3D4E68"/>
+  <rect x="112" y="162" width="52" height="4" fill="#3D4E68"/>
+  <rect x="112" y="176" width="36" height="4" fill="#3D4E68"/>
+  <rect x="196" y="132" width="88" height="64" fill="#FFE6A7"/>
+  <rect x="208" y="148" width="48" height="4" fill="#3D4E68"/>
+  <rect x="208" y="162" width="56" height="4" fill="#3D4E68"/>
+  <text class="small" x="112" y="224" text-anchor="start" font-size="18" fill="#E9DCC9">COUNTERS</text>
+  <rect x="112" y="232" width="84" height="16" fill="#070B12"/>
+  <rect x="118" y="238" width="16" height="4" fill="#FFD166"/>
+  <text class="small" x="140" y="245" text-anchor="start" font-size="10" fill="#64D2FF">REPOS</text>
+  <text class="small" x="192" y="245" text-anchor="end" font-size="12" fill="#E9DCC9">57</text>
+  <rect x="208" y="232" width="84" height="16" fill="#070B12"/>
+  <rect x="214" y="238" width="16" height="4" fill="#FFD166"/>
+  <text class="small" x="236" y="245" text-anchor="start" font-size="10" fill="#64D2FF">STARS</text>
+  <text class="small" x="288" y="245" text-anchor="end" font-size="12" fill="#E9DCC9">27</text>
+  <rect x="112" y="252" width="128" height="16" fill="#070B12"/>
+  <rect x="118" y="258" width="16" height="4" fill="#FFD166"/>
+  <text class="small" x="140" y="265" text-anchor="start" font-size="10" fill="#64D2FF">FOLLOWERS</text>
+  <text class="small" x="236" y="265" text-anchor="end" font-size="12" fill="#E9DCC9">17</text>
+  <rect x="328" y="88" width="280" height="168" fill="#070B12"/>
+  <rect x="320" y="80" width="280" height="168" fill="#24344F"/>
+  <rect x="336" y="104" width="248" height="112" fill="#101622"/>
+  <rect x="344" y="112" width="232" height="96" fill="#09131E"/>
+  <rect x="400" y="224" width="112" height="20" fill="#070B12"/>
+  <rect x="360" y="248" width="192" height="12" fill="#2E405E"/>
+  <text class="label" x="344" y="100" text-anchor="start" font-size="20" fill="#E9DCC9">LATEST QUESTS</text>
+  <rect x="548" y="88" width="24" height="24" fill="#FFD166"/>
+  <rect x="552" y="92" width="16" height="16" fill="#E9DCC9"/>
+  <text class="small" x="352" y="132" text-anchor="start" font-size="11" fill="#FFD166">&gt;</text>
+  <text class="small" x="368" y="132" text-anchor="start" font-size="11" fill="#E9DCC9">blog-hugo</text>
+  <text class="small" x="568" y="132" text-anchor="end" font-size="10" fill="#64D2FF">SCSS *0</text>
+  <text class="small" x="352" y="146" text-anchor="start" font-size="11" fill="#64D2FF">&gt;</text>
+  <text class="small" x="368" y="146" text-anchor="start" font-size="11" fill="#E9DCC9">pokemind-agent</text>
+  <text class="small" x="568" y="146" text-anchor="end" font-size="10" fill="#64D2FF">Unknown *0</text>
+  <text class="small" x="352" y="160" text-anchor="start" font-size="11" fill="#64D2FF">&gt;</text>
+  <text class="small" x="368" y="160" text-anchor="start" font-size="11" fill="#E9DCC9">silksong_tutor.</text>
+  <text class="small" x="568" y="160" text-anchor="end" font-size="10" fill="#64D2FF">GDScri. *0</text>
+  <text class="small" x="352" y="174" text-anchor="start" font-size="11" fill="#64D2FF">&gt;</text>
+  <text class="small" x="368" y="174" text-anchor="start" font-size="11" fill="#E9DCC9">dfun</text>
+  <text class="small" x="568" y="174" text-anchor="end" font-size="10" fill="#64D2FF">Rust *0</text>
+  <text class="small" x="352" y="188" text-anchor="start" font-size="11" fill="#64D2FF">&gt;</text>
+  <text class="small" x="368" y="188" text-anchor="start" font-size="11" fill="#E9DCC9">bevy-tetris</text>
+  <text class="small" x="568" y="188" text-anchor="end" font-size="10" fill="#64D2FF">Rust *0</text>
+  <rect x="336" y="268" width="48" height="12" fill="#FF9B71"/>
+  <rect x="392" y="268" width="72" height="12" fill="#E9DCC9"/>
+  <rect x="472" y="268" width="56" height="12" fill="#287A95"/>
+  <rect x="640" y="100" width="224" height="12" fill="#3D4E68"/>
+  <rect x="652" y="68" width="16" height="32" fill="#FF9B71"/>
+  <rect x="672" y="80" width="16" height="20" fill="#64D2FF"/>
+  <rect x="692" y="72" width="16" height="28" fill="#E9DCC9"/>
+  <rect x="712" y="88" width="44" height="12" fill="#6F7B91"/>
+  <polygon points="778,70 810,58 842,70 812,82" fill="#287A95"/>
+  <rect x="802" y="64" width="24" height="6" fill="#64D2FF"/>
+  <rect x="768" y="74" width="16" height="4" fill="#FFD166"/>
+  <rect x="842" y="74" width="16" height="4" fill="#FFD166"/>
+  <text class="label" x="648" y="134" text-anchor="start" font-size="20" fill="#E9DCC9">LANGUAGE MAP</text>
+  <text class="small" x="648" y="154" text-anchor="start" font-size="12" fill="#64D2FF">ACTIVE CLUSTERS</text>
+  <rect x="648" y="164" width="184" height="4" fill="#6F7B91"/>
+  <rect x="696" y="268" width="48" height="24" fill="#070B12"/>
+  <rect x="708" y="244" width="24" height="24" fill="#287A95"/>
+  <rect x="716" y="232" width="8" height="12" fill="#6BCB77"/>
+  <rect x="704" y="228" width="16" height="12" fill="#6BCB77"/>
+  <rect x="724" y="228" width="16" height="12" fill="#6BCB77"/>
+  <text class="small" x="648" y="184" text-anchor="start" font-size="10" fill="#E9DCC9">Rust</text>
+  <rect x="724" y="176" width="112" height="8" fill="#070B12"/>
+  <rect x="728" y="178" width="104" height="4" fill="#FF9B71"/>
+  <text class="small" x="852" y="184" text-anchor="end" font-size="10" fill="#E9DCC9">8</text>
+  <text class="small" x="648" y="197" text-anchor="start" font-size="10" fill="#E9DCC9">Python</text>
+  <rect x="724" y="189" width="112" height="8" fill="#070B12"/>
+  <rect x="728" y="191" width="91" height="4" fill="#64D2FF"/>
+  <text class="small" x="852" y="197" text-anchor="end" font-size="10" fill="#E9DCC9">7</text>
+  <text class="small" x="648" y="210" text-anchor="start" font-size="10" fill="#E9DCC9">JavaScr.</text>
+  <rect x="724" y="202" width="112" height="8" fill="#070B12"/>
+  <rect x="728" y="204" width="91" height="4" fill="#FFD166"/>
+  <text class="small" x="852" y="210" text-anchor="end" font-size="10" fill="#E9DCC9">7</text>
+  <text class="small" x="648" y="223" text-anchor="start" font-size="10" fill="#E9DCC9">Java</text>
+  <rect x="724" y="215" width="112" height="8" fill="#070B12"/>
+  <rect x="728" y="217" width="91" height="4" fill="#D99B64"/>
+  <text class="small" x="852" y="223" text-anchor="end" font-size="10" fill="#E9DCC9">7</text>
+  <text class="small" x="648" y="236" text-anchor="start" font-size="10" fill="#E9DCC9">Shell</text>
+  <rect x="724" y="228" width="112" height="8" fill="#070B12"/>
+  <rect x="728" y="230" width="52" height="4" fill="#E9DCC9"/>
+  <text class="small" x="852" y="236" text-anchor="end" font-size="10" fill="#E9DCC9">4</text>
+  <text class="small" x="648" y="249" text-anchor="start" font-size="10" fill="#E9DCC9">HTML</text>
+  <rect x="724" y="241" width="112" height="8" fill="#070B12"/>
+  <rect x="728" y="243" width="26" height="4" fill="#FF9B71"/>
+  <text class="small" x="852" y="249" text-anchor="end" font-size="10" fill="#E9DCC9">2</text>
+  <rect x="760" y="270" width="108" height="18" fill="#070B12"/>
+  <rect x="772" y="274" width="80" height="4" fill="#64D2FF"/>
+  <rect x="104" y="292" width="520" height="4" fill="#64D2FF"/>
+  <rect x="624" y="292" width="88" height="4" fill="#FFD166"/>
+  <rect x="712" y="292" width="64" height="4" fill="#6F7B91"/>
+  <text class="small" x="856" y="296" text-anchor="end" font-size="12" fill="#E9DCC9">SYNC 05-16 20:37 CST</text>
 </svg>
