@@ -17,7 +17,8 @@
 ## Projects
 
 - `ld000/ld000` powers the user's GitHub profile README.
-- The profile is moving toward a pixel-game visual style with dynamic, auto-generated local SVG assets.
+- The profile direction is Daily Stamp / Signal Passport with two locally generated PNG assets and aggregate public GitHub signal only.
+- Do not add project introductions, specific project cards, project descriptions, or Selected Machines to the profile README.
 
 ## Output
 
