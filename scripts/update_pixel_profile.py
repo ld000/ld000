@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate local supporting pixel-art PNG assets for the ld000 profile README.
+"""Generate local toy-packaging PNG assets for the ld000 profile README.
 
 The generator intentionally avoids third-party drawing dependencies so GitHub
-Actions can refresh the dynamic status board with only Python's standard
-library. The static hero image is generated separately and is not overwritten.
+Actions can refresh the dynamic profile panels with only Python's standard
+library.
 """
 
 from __future__ import annotations
@@ -15,7 +15,6 @@ import sys
 import urllib.error
 import urllib.request
 import zlib
-from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -28,56 +27,55 @@ except ImportError:  # pragma: no cover - Python 3.8 fallback
 USERNAME = os.environ.get("GITHUB_USERNAME", "ld000")
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "assets"
-USER_AGENT = "ld000-pixel-profile-generator"
-
+USER_AGENT = "ld000-playable-systems-generator"
 
 COLORS = {
-    "void": "#070B12",
-    "ink": "#101622",
-    "night": "#0B1020",
-    "wall": "#18243B",
-    "wall_2": "#22314C",
-    "wall_3": "#2D4264",
-    "line": "#3D4E68",
-    "screen": "#64D2FF",
-    "screen_dim": "#287A95",
-    "cream": "#E9DCC9",
-    "paper": "#FFE6A7",
-    "gold": "#FFD166",
-    "amber": "#B17647",
-    "wood": "#8A5A3C",
-    "wood_dark": "#5F3B28",
-    "rust": "#FF9B71",
-    "red": "#FF6B6B",
-    "green": "#6BCB77",
-    "muted": "#6F7B91",
-    "purple": "#9D8CFF",
-    "pink": "#FF8FB3",
-    "blue": "#4D96FF",
-    "teal": "#4ECDC4",
+    "paper": "#F7F1DF",
+    "ink": "#171717",
+    "cream": "#FFF8E7",
+    "shadow": "#D8CDB5",
+    "red": "#FF4D3D",
+    "acid": "#D8FF4F",
+    "cyan": "#00CFC8",
+    "purple": "#A78BFA",
+    "rust": "#D96C2C",
+    "yellow": "#FFD166",
+    "muted": "#5F5A50",
+    "white": "#FFFFFF",
 }
 
-LANG_COLORS = {
-    "Rust": COLORS["rust"],
-    "Python": COLORS["screen"],
-    "JavaScript": COLORS["gold"],
-    "TypeScript": COLORS["screen"],
-    "Shell": COLORS["cream"],
-    "SCSS": "#F28FB3",
-    "CSS": COLORS["green"],
-    "Java": COLORS["amber"],
-    "GDScript": COLORS["screen"],
-    "C#": COLORS["green"],
-    "HTML": COLORS["rust"],
+PROJECTS = {
+    "bevy-tetris": {
+        "number": "01",
+        "language": "Rust",
+        "line": "A RUST BEVY GAME PROJECT",
+        "accent": "red",
+    },
+    "redis-rust": {
+        "number": "02",
+        "language": "Rust",
+        "line": "A RUST STORAGE SYSTEMS PROJECT",
+        "accent": "rust",
+    },
+    "spider": {
+        "number": "03",
+        "language": "Python",
+        "line": "A WEB AUTOMATION PROJECT",
+        "accent": "cyan",
+    },
+    "blog-hugo": {
+        "number": "04",
+        "language": "HTML",
+        "line": "A PUBLIC NOTES AND HUGO BLOG PROJECT",
+        "accent": "purple",
+    },
 }
 
-PROJECTS = [
-    ("bevy-tetris", "BLOCK STACK", "RUST + BEVY"),
-    ("redis-rust", "DATA DUNGEON", "STORAGE NOTES"),
-    ("spider", "CRAWLER ROAD", "WEB AUTOMATION"),
-    ("blog-hugo", "CAMPFIRE NOTES", "HUGO BLOG"),
+GENERATED_ASSETS = [
+    "hero-playable-systems.png",
+    "build-modes.png",
+    *[f"project-{repo}.png" for repo in PROJECTS],
 ]
-
 
 FONT = {
     " ": ["000", "000", "000", "000", "000", "000", "000"],
@@ -130,17 +128,6 @@ FONT = {
     "Z": ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
 }
 
-GENERATED_ASSETS = [
-    "status-board.png",
-    "inventory.png",
-    "quest-map.png",
-    "portal-blog.png",
-    "portal-github.png",
-    "portal-notes.png",
-    "footer-sign.png",
-    *[f"project-{repo}.png" for repo, _, _ in PROJECTS],
-]
-
 
 def hex_to_rgb(value: str) -> tuple[int, int, int]:
     value = value.lstrip("#")
@@ -164,19 +151,22 @@ class Canvas:
             end = yy * self.width + min(self.width, x + w)
             self.pixels[start:end] = [hex_to_rgb(color)] * max(0, end - start)
 
-    def frame(self, x: int, y: int, w: int, h: int, fill: str, border: str, shadow: str) -> None:
-        self.rect(x + 4, y + 4, w, h, shadow)
+    def outline_rect(self, x: int, y: int, w: int, h: int, fill: str, border: str, stroke: int = 5) -> None:
         self.rect(x, y, w, h, border)
-        self.rect(x + 3, y + 3, w - 6, h - 6, fill)
+        self.rect(x + stroke, y + stroke, w - stroke * 2, h - stroke * 2, fill)
 
-    def line(self, x0: int, y0: int, x1: int, y1: int, color: str) -> None:
+    def shadow_rect(self, x: int, y: int, w: int, h: int, fill: str, stroke: int = 5) -> None:
+        self.rect(x + 8, y + 8, w, h, COLORS["shadow"])
+        self.outline_rect(x, y, w, h, fill, COLORS["ink"], stroke)
+
+    def line(self, x0: int, y0: int, x1: int, y1: int, color: str, thickness: int = 1) -> None:
         dx = abs(x1 - x0)
         sx = 1 if x0 < x1 else -1
         dy = -abs(y1 - y0)
         sy = 1 if y0 < y1 else -1
         err = dx + dy
         while True:
-            self.set(x0, y0, color)
+            self.rect(x0 - thickness // 2, y0 - thickness // 2, thickness, thickness, color)
             if x0 == x1 and y0 == y1:
                 break
             e2 = 2 * err
@@ -187,18 +177,9 @@ class Canvas:
                 err += dx
                 y0 += sy
 
-    def diamond(self, cx: int, cy: int, radius: int, fill: str, border: str) -> None:
-        for yy in range(-radius, radius + 1):
-            span = radius - abs(yy)
-            self.rect(cx - span, cy + yy, span * 2 + 1, 1, border)
-        inner = max(1, radius - 3)
-        for yy in range(-inner, inner + 1):
-            span = inner - abs(yy)
-            self.rect(cx - span, cy + yy, span * 2 + 1, 1, fill)
-
-    def pixel_circle(self, cx: int, cy: int, radius: int, fill: str, border: str) -> None:
+    def circle(self, cx: int, cy: int, radius: int, fill: str, border: str, stroke: int = 4) -> None:
         r2 = radius * radius
-        inner = max(1, radius - 3)
+        inner = max(1, radius - stroke)
         inner2 = inner * inner
         for yy in range(-radius, radius + 1):
             for xx in range(-radius, radius + 1):
@@ -226,15 +207,12 @@ class Canvas:
     def centered_text(self, value: object, cx: int, y: int, color: str, scale: int = 1) -> None:
         self.text(value, cx - self.text_width(value, scale) // 2, y, color, scale)
 
-    def save_png(self, path: Path, scale: int = 1) -> None:
-        width = self.width * scale
-        height = self.height * scale
+    def save_png(self, path: Path) -> None:
         raw = bytearray()
-        for y in range(height):
+        for y in range(self.height):
             raw.append(0)
-            source_y = y // scale
-            for x in range(width):
-                raw.extend(self.pixels[source_y * self.width + (x // scale)])
+            for x in range(self.width):
+                raw.extend(self.pixels[y * self.width + x])
         compressed = zlib.compress(bytes(raw), 9)
 
         def chunk(kind: bytes, data: bytes) -> bytes:
@@ -246,7 +224,7 @@ class Canvas:
             )
 
         payload = b"\x89PNG\r\n\x1a\n"
-        payload += chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+        payload += chunk(b"IHDR", struct.pack(">IIBBBBB", self.width, self.height, 8, 2, 0, 0, 0))
         payload += chunk(b"IDAT", compressed)
         payload += chunk(b"IEND", b"")
         path.write_bytes(payload)
@@ -289,38 +267,60 @@ def parse_time(value: str | None) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
+def updated_stamp(value: str | None) -> str:
+    parsed = parse_time(value)
+    if parsed == datetime.min.replace(tzinfo=timezone.utc):
+        return "local"
+    return parsed.strftime("%m-%d")
+
+
 def display_time() -> str:
     now = datetime.now(timezone.utc)
     if ZoneInfo is not None:
         now = now.astimezone(ZoneInfo("Asia/Shanghai"))
-        return now.strftime("%m-%d %H:%M CST")
-    return now.strftime("%m-%d %H:%M UTC")
+    return now.strftime("%m-%d")
 
 
 def summarize(user: dict, repos: list[dict]) -> dict:
     owned = [repo for repo in repos if not repo.get("fork")]
     active = [repo for repo in owned if not repo.get("archived")]
-    quest_repos = [repo for repo in active if repo.get("name") != USERNAME]
-    latest = sorted(quest_repos, key=lambda repo: parse_time(repo.get("pushed_at")), reverse=True)
-    languages = Counter(repo.get("language") for repo in active if repo.get("language"))
+    latest = sorted(
+        [repo for repo in active if repo.get("name") != USERNAME],
+        key=lambda repo: parse_time(repo.get("pushed_at")),
+        reverse=True,
+    )
+    by_name = {repo.get("name"): repo for repo in owned}
+    projects: dict[str, dict[str, object]] = {}
+    for name, meta in PROJECTS.items():
+        repo = by_name.get(name, {})
+        projects[name] = {
+            "language": repo.get("language") or meta["language"],
+            "stars": repo.get("stargazers_count") if repo else "--",
+            "updated_short": updated_stamp(repo.get("pushed_at")) if repo else "local",
+        }
     return {
-        "public_repos": user.get("public_repos") or len(owned),
+        "public_repos": user.get("public_repos") or len(owned) or "--",
         "total_stars": sum(int(repo.get("stargazers_count") or 0) for repo in owned),
-        "followers": user.get("followers") or 0,
-        "latest": latest[:5],
-        "top_languages": languages.most_common(6),
+        "latest": latest[:5] or [{"name": "workbench"}],
         "updated": display_time(),
+        "projects": projects,
     }
 
 
 def fallback_summary() -> dict:
     return {
-        "public_repos": 0,
-        "total_stars": 0,
-        "followers": 0,
-        "latest": [{"name": name, "language": label.split()[0], "stargazers_count": 0} for name, _, label in PROJECTS],
-        "top_languages": [("Rust", 3), ("JavaScript", 2), ("Python", 2), ("Shell", 1)],
-        "updated": display_time(),
+        "public_repos": "--",
+        "total_stars": "--",
+        "latest": [{"name": "workbench"}],
+        "updated": "local build",
+        "projects": {
+            name: {
+                "language": meta["language"],
+                "stars": "--",
+                "updated_short": "local",
+            }
+            for name, meta in PROJECTS.items()
+        },
     }
 
 
@@ -329,341 +329,174 @@ def truncate(value: object, limit: int) -> str:
     return text if len(text) <= limit else text[: max(0, limit - 1)] + "."
 
 
-def draw_stars(c: Canvas) -> None:
-    for x, y, color in [
-        (54, 35, "screen"), (83, 52, "cream"), (118, 29, "screen"), (144, 69, "muted"),
-        (509, 36, "screen"), (548, 58, "cream"), (602, 27, "gold"), (620, 82, "screen"),
-    ]:
-        c.rect(x, y, 2, 2, COLORS[color])
+def decorate_background(c: Canvas) -> None:
+    c.rect(0, 0, c.width, c.height, COLORS["paper"])
+    for y in range(10, c.height, 18):
+        for x in range((y // 18) % 2 * 9, c.width, 18):
+            c.rect(x, y, 2, 2, COLORS["shadow"])
+    for x in range(0, c.width, 80):
+        c.line(x, 0, x + 120, c.height, COLORS["cream"], 2)
 
 
-def draw_sparkles(c: Canvas, points: list[tuple[int, int, str]]) -> None:
-    for x, y, color in points:
-        c.rect(x, y - 3, 2, 8, COLORS[color])
-        c.rect(x - 3, y, 8, 2, COLORS[color])
+def punch_holes(c: Canvas, x: int, y: int, w: int) -> None:
+    c.circle(x + 28, y + 24, 11, COLORS["paper"], COLORS["ink"], 4)
+    c.circle(x + w - 28, y + 24, 11, COLORS["paper"], COLORS["ink"], 4)
 
 
-def draw_room_shell(c: Canvas, width: int, height: int) -> None:
-    c.rect(0, 0, width, height, COLORS["ink"])
-    c.rect(10, 10, width - 20, height - 42, COLORS["wall"])
-    c.rect(16, 16, width - 32, height - 54, COLORS["night"])
-    draw_stars(c)
-    c.rect(0, height - 52, width, 52, COLORS["wood"])
-    c.rect(0, height - 34, width, 34, COLORS["wood_dark"])
-    c.rect(16, height - 52, width - 32, 4, COLORS["amber"])
+def sticker(c: Canvas, x: int, y: int, w: int, h: int, label: str, value: object, fill: str) -> None:
+    c.rect(x + 5, y + 5, w, h, COLORS["shadow"])
+    c.outline_rect(x, y, w, h, fill, COLORS["ink"], 5)
+    c.text(label, x + 16, y + 16, COLORS["ink"], 2)
+    c.text(truncate(value, 15), x + 18, y + 48, COLORS["ink"], 3)
+    c.rect(x + 16, y + h - 18, w - 32, 5, COLORS["ink"])
 
 
-def draw_window(c: Canvas, x: int, y: int) -> None:
-    c.frame(x, y, 142, 86, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-    c.rect(x + 10, y + 10, 122, 66, "#0C1830")
-    c.rect(x + 70, y + 10, 2, 66, COLORS["line"])
-    c.rect(x + 10, y + 43, 122, 2, COLORS["line"])
-    c.rect(x + 102, y + 18, 12, 12, COLORS["cream"])
-    c.rect(x + 99, y + 18, 6, 6, "#0C1830")
-    for sx, sy in [(20, 18), (34, 54), (61, 25), (117, 51)]:
-        c.rect(x + sx, y + sy, 2, 2, COLORS["screen"])
-    c.rect(x + 24, y + 58, 18, 12, COLORS["wall_3"])
-    c.rect(x + 46, y + 52, 22, 18, COLORS["wall_2"])
-    c.rect(x + 74, y + 56, 30, 14, COLORS["wall_3"])
-    c.rect(x + 87, y + 39, 22, 6, COLORS["screen_dim"])
-    c.rect(x + 94, y + 36, 16, 3, COLORS["screen"])
-    c.rect(x + 78, y + 42, 8, 2, COLORS["gold"])
-    c.rect(x + 110, y + 42, 10, 2, COLORS["gold"])
+def draw_code_block(c: Canvas, x: int, y: int) -> None:
+    c.shadow_rect(x, y, 156, 110, COLORS["cream"])
+    c.text("CODE", x + 20, y + 18, COLORS["ink"], 2)
+    for index, width in enumerate([86, 112, 68, 124]):
+        yy = y + 52 + index * 13
+        c.rect(x + 22, yy, width, 5, [COLORS["red"], COLORS["cyan"], COLORS["purple"], COLORS["rust"]][index])
 
 
-def draw_lamp_and_props(c: Canvas, y: int) -> None:
-    c.rect(50, y + 18, 60, 8, COLORS["wood_dark"])
-    c.rect(62, y + 6, 38, 12, COLORS["rust"])
-    c.rect(70, y, 22, 6, COLORS["paper"])
-    c.rect(77, y - 28, 4, 28, COLORS["line"])
-    c.rect(60, y - 40, 46, 10, COLORS["gold"])
-    c.rect(68, y - 36, 30, 4, COLORS["paper"])
-    c.rect(118, y + 15, 44, 14, COLORS["wall_3"])
-    c.rect(126, y + 19, 17, 3, COLORS["screen"])
-    c.rect(238, y + 12, 46, 10, COLORS["void"])
-    c.rect(250, y, 24, 14, COLORS["wall_3"])
-    c.rect(258, y - 12, 4, 12, COLORS["green"])
-    c.rect(251, y - 18, 10, 8, COLORS["green"])
-    c.rect(263, y - 18, 10, 8, COLORS["green"])
-    c.rect(422, y + 17, 52, 4, COLORS["line"])
-    c.rect(480, y + 15, 7, 7, COLORS["line"])
-    c.rect(487, y + 21, 36, 4, COLORS["line"])
-    c.rect(534, y + 8, 42, 18, COLORS["wall_3"])
-    c.rect(542, y + 15, 26, 3, COLORS["screen"])
-    c.rect(585, y + 10, 28, 18, COLORS["wood_dark"])
-    c.rect(590, y + 3, 18, 7, COLORS["paper"])
+def draw_gear_loop(c: Canvas, x: int, y: int) -> None:
+    c.circle(x + 62, y + 58, 50, COLORS["yellow"], COLORS["ink"], 7)
+    for dx, dy in [(55, 0), (-55, 0), (0, 55), (0, -55), (39, 39), (-39, -39)]:
+        c.rect(x + 58 + dx, y + 54 + dy, 10, 10, COLORS["ink"])
+    c.circle(x + 62, y + 58, 25, COLORS["paper"], COLORS["ink"], 6)
+    c.text("LOOP", x + 33, y + 52, COLORS["ink"], 2)
 
 
-def draw_main_terminal(c: Canvas, x: int, y: int) -> None:
-    c.frame(x, y, 188, 108, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-    c.rect(x + 13, y + 13, 162, 70, COLORS["void"])
-    c.rect(x + 19, y + 18, 150, 58, COLORS["screen_dim"])
-    c.rect(x + 24, y + 23, 140, 48, COLORS["ink"])
-    c.centered_text("LD000", x + 94, y + 35, COLORS["cream"], 4)
-    c.centered_text("RUST / GAMES / TOOLS / NOTES", x + 94, y + 65, COLORS["screen"], 1)
-    c.rect(x + 43, y + 82, 68, 11, COLORS["void"])
-    c.rect(x + 22, y + 94, 124, 8, COLORS["wall_3"])
-    c.rect(x + 28, y + 97, 112, 2, COLORS["muted"])
+def draw_tool_note(c: Canvas, x: int, y: int) -> None:
+    c.shadow_rect(x, y, 154, 112, COLORS["cream"])
+    c.rect(x + 24, y + 28, 58, 18, COLORS["cyan"])
+    c.rect(x + 42, y + 46, 20, 45, COLORS["ink"])
+    c.rect(x + 90, y + 25, 40, 58, COLORS["yellow"])
+    c.rect(x + 98, y + 38, 22, 4, COLORS["ink"])
+    c.rect(x + 98, y + 51, 22, 4, COLORS["ink"])
+    c.text("NOTE", x + 92, y + 92, COLORS["ink"], 1)
 
 
-def draw_wall_board(c: Canvas, x: int, y: int, summary: dict) -> None:
-    c.frame(x, y, 140, 88, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-    for nx, ny, color in [(12, 11, "paper"), (51, 11, "gold"), (92, 11, "paper")]:
-        c.rect(x + nx, y + ny, 30, 22, COLORS[color])
-        c.rect(x + nx + 6, y + ny + 8, 18, 2, COLORS["line"])
-    c.text("STATUS", x + 22, y + 43, COLORS["cream"], 1)
-    c.text(f"REPOS {summary['public_repos']}", x + 22, y + 57, COLORS["screen"], 1)
-    c.text(f"STARS {summary['total_stars']}", x + 22, y + 69, COLORS["screen"], 1)
-    c.text(f"FOL {summary['followers']}", x + 90, y + 69, COLORS["screen"], 1)
-    c.rect(x + 116, y + 46, 8, 26, COLORS["line"])
-    c.rect(x + 111, y + 72, 18, 7, COLORS["gold"])
+def draw_button(c: Canvas, x: int, y: int, label: str, fill: str) -> None:
+    c.rect(x + 7, y + 7, 142, 58, COLORS["shadow"])
+    c.outline_rect(x, y, 142, 58, fill, COLORS["ink"], 6)
+    c.centered_text(label, x + 71, y + 20, COLORS["ink"], 3)
 
 
 def generate_hero(summary: dict) -> None:
-    c = Canvas(640, 260, COLORS["ink"])
-    draw_room_shell(c, 640, 260)
-    draw_window(c, 40, 30)
-    draw_main_terminal(c, 224, 35)
-    draw_wall_board(c, 452, 35, summary)
-    draw_lamp_and_props(c, 177)
-    latest = truncate((summary["latest"][0].get("name") if summary["latest"] else "ready"), 18)
-    c.frame(210, 207, 220, 28, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-    c.rect(224, 217, 7, 7, COLORS["gold"])
-    c.centered_text(f"QUEST: {latest}", 320, 216, COLORS["cream"], 1)
-    c.text(f"SYNC {summary['updated']}", 496, 237, COLORS["paper"], 1)
-    c.save_png(ASSETS / "hero-room.png", scale=2)
+    c = Canvas(1280, 560, COLORS["paper"])
+    decorate_background(c)
+    c.shadow_rect(34, 28, 1212, 486, COLORS["cream"], 7)
+    punch_holes(c, 34, 28, 1212)
+
+    sticker(c, 82, 102, 250, 92, "REPOS", summary["public_repos"], COLORS["acid"])
+    sticker(c, 96, 218, 250, 92, "STARS", summary["total_stars"], COLORS["yellow"])
+    latest = truncate(summary["latest"][0].get("name", "workbench"), 15)
+    sticker(c, 78, 334, 286, 96, "LATEST", latest, COLORS["cyan"])
+
+    c.text("LD000", 490, 70, COLORS["ink"], 4)
+    c.text("OPEN COVER MACHINE", 492, 118, COLORS["muted"], 2)
+    draw_code_block(c, 426, 188)
+    draw_gear_loop(c, 626, 184)
+    draw_tool_note(c, 824, 187)
+    c.line(583, 244, 620, 244, COLORS["ink"], 5)
+    c.line(757, 244, 814, 244, COLORS["ink"], 5)
+    c.rect(607, 232, 16, 24, COLORS["ink"])
+    c.rect(802, 232, 16, 24, COLORS["ink"])
+
+    draw_button(c, 1054, 130, "RUN", COLORS["red"])
+    draw_button(c, 1040, 232, "FEEL", COLORS["purple"])
+    draw_button(c, 1024, 334, "USEFUL", COLORS["acid"])
+    c.text(f"SYNC {summary['updated']}", 1020, 468, COLORS["ink"], 2)
+    c.rect(64, 492, 1136, 8, COLORS["ink"])
+    c.rect(64, 492, 420, 8, COLORS["red"])
+    c.rect(484, 492, 320, 8, COLORS["cyan"])
+    c.rect(804, 492, 396, 8, COLORS["yellow"])
+    c.save_png(ASSETS / "hero-playable-systems.png")
 
 
-def generate_status(summary: dict) -> None:
-    c = Canvas(960, 360, COLORS["ink"])
-    draw_room_shell(c, 960, 360)
-    c.rect(52, 52, 856, 210, "#142039")
-    c.text("LD000 STATUS TERMINAL", 86, 76, COLORS["cream"], 2)
-    for label, value, x in [
-        ("REPOS", summary["public_repos"], 86),
-        ("STARS", summary["total_stars"], 228),
-        ("FOLLOWERS", summary["followers"], 370),
-    ]:
-        c.frame(x, 104, 112, 58, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-        c.text(label, x + 14, 120, COLORS["screen"], 1)
-        c.text(value, x + 14, 138, COLORS["cream"], 2)
-
-    c.frame(86, 180, 394, 106, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-    c.text("LATEST", 108, 202, COLORS["cream"], 2)
-    for index, repo in enumerate(summary["latest"][:4]):
-        y = 229 + index * 13
-        name = truncate(repo.get("name") or "unknown", 18)
-        lang = truncate(repo.get("language") or "Unknown", 8)
-        stars = repo.get("stargazers_count") or 0
-        c.text(">", 110, y, COLORS["gold"] if index == 0 else COLORS["screen"], 1)
-        c.text(name, 126, y, COLORS["cream"], 1)
-        c.text(f"{lang} *{stars}", 322, y, COLORS["screen"], 1)
-
-    c.frame(548, 96, 300, 184, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-    c.text("TOP LANGUAGE", 576, 120, COLORS["cream"], 2)
-    max_count = max([count for _, count in summary["top_languages"]] or [1])
-    for index, (language, count) in enumerate(summary["top_languages"][:6]):
-        y = 155 + index * 18
-        width = max(18, int(138 * count / max_count))
-        c.text(truncate(language, 10), 580, y, COLORS["cream"], 1)
-        c.rect(680, y - 4, 148, 8, COLORS["void"])
-        c.rect(684, y - 2, width, 4, LANG_COLORS.get(language, COLORS["screen"]))
-        c.text(count, 838, y, COLORS["paper"], 1)
-    c.rect(612, 292, 82, 22, COLORS["void"])
-    c.rect(628, 272, 34, 22, COLORS["screen_dim"])
-    c.rect(642, 258, 6, 14, COLORS["green"])
-    c.rect(628, 251, 18, 11, COLORS["green"])
-    c.rect(650, 251, 18, 11, COLORS["green"])
-    c.pixel_circle(820, 302, 18, COLORS["gold"], COLORS["line"])
-    c.diamond(780, 296, 13, COLORS["purple"], COLORS["line"])
-    c.text(f"SYNC {summary['updated']}", 686, 300, COLORS["paper"], 1)
-    c.save_png(ASSETS / "status-board.png")
-
-
-def draw_icon(c: Canvas, name: str, x: int, y: int) -> None:
-    if name == "Rust":
-        c.rect(x + 10, y + 10, 28, 28, COLORS["rust"])
-        c.rect(x + 16, y + 16, 16, 16, COLORS["ink"])
-        c.rect(x + 21, y + 21, 6, 6, COLORS["rust"])
-    elif name == "Game":
-        c.rect(x + 8, y + 18, 32, 18, COLORS["screen_dim"])
-        c.rect(x + 13, y + 23, 8, 4, COLORS["cream"])
-        c.rect(x + 15, y + 21, 4, 8, COLORS["cream"])
-        c.rect(x + 31, y + 22, 4, 4, COLORS["gold"])
-        c.rect(x + 35, y + 28, 4, 4, COLORS["red"])
-    elif name == "Web":
-        c.rect(x + 9, y + 10, 31, 28, COLORS["screen"])
-        c.rect(x + 13, y + 17, 23, 17, COLORS["ink"])
-        c.rect(x + 16, y + 20, 8, 2, COLORS["gold"])
-        c.rect(x + 16, y + 26, 16, 2, COLORS["cream"])
-    elif name == "Auto":
-        c.rect(x + 12, y + 12, 24, 24, COLORS["purple"])
-        c.rect(x + 18, y + 18, 12, 12, COLORS["ink"])
-        c.rect(x + 22, y + 7, 4, 8, COLORS["gold"])
-        c.rect(x + 7, y + 22, 8, 4, COLORS["gold"])
-        c.rect(x + 33, y + 22, 8, 4, COLORS["gold"])
+def draw_mode_icon(c: Canvas, x: int, y: int, mode: str) -> None:
+    if mode == "run":
+        for row in range(3):
+            c.rect(x + row * 18, y + row * 14, 72 - row * 18, 12, COLORS["cyan"])
+            c.outline_rect(x + row * 18, y + row * 14, 72 - row * 18, 12, COLORS["cyan"], COLORS["ink"], 3)
+    elif mode == "feel":
+        c.circle(x + 38, y + 32, 33, COLORS["purple"], COLORS["ink"], 5)
+        c.circle(x + 38, y + 32, 12, COLORS["paper"], COLORS["ink"], 4)
+        c.rect(x + 25, y + 4, 26, 12, COLORS["red"])
+        c.rect(x + 25, y + 49, 26, 12, COLORS["acid"])
     else:
-        c.rect(x + 12, y + 8, 24, 32, COLORS["paper"])
-        c.rect(x + 17, y + 17, 14, 2, COLORS["line"])
-        c.rect(x + 17, y + 24, 14, 2, COLORS["line"])
-        c.rect(x + 17, y + 31, 10, 2, COLORS["line"])
+        c.rect(x + 15, y + 8, 70, 30, COLORS["yellow"])
+        c.rect(x + 8, y + 30, 28, 46, COLORS["ink"])
+        c.rect(x + 38, y + 39, 38, 12, COLORS["cyan"])
 
 
-def generate_inventory() -> None:
-    c = Canvas(960, 220, COLORS["ink"])
-    c.rect(0, 0, 960, 220, COLORS["night"])
-    c.rect(24, 24, 912, 142, COLORS["wall"])
-    c.rect(34, 34, 892, 122, COLORS["void"])
-    draw_sparkles(c, [(78, 52, "screen"), (274, 42, "gold"), (522, 55, "cream"), (832, 44, "screen")])
-    c.text("INVENTORY", 44, 36, COLORS["cream"], 2)
-    items = [("Rust", "SYSTEMS"), ("Game", "GAME DEV"), ("Web", "WEB"), ("Auto", "AUTOMATION"), ("Notes", "NOTES")]
-    for index, (name, label) in enumerate(items):
-        cx = 132 + index * 174
-        c.rect(cx - 52, 142, 104, 10, COLORS["wood_dark"])
-        c.rect(cx - 42, 132, 84, 10, COLORS["wood"])
-        c.rect(cx - 24, 92, 48, 44, COLORS["wall_3"])
-        draw_icon(c, name, cx - 24, 84)
-        c.centered_text(name, cx, 154, COLORS["cream"], 1)
-        c.centered_text(label, cx, 170, COLORS["screen"], 1)
-    c.rect(44, 186, 872, 4, COLORS["line"])
-    c.rect(44, 186, 270, 4, COLORS["gold"])
-    c.save_png(ASSETS / "inventory.png")
-
-
-def generate_portal(filename: str, title: str, subtitle: str, accent: str, icon: str) -> None:
-    c = Canvas(300, 120, COLORS["ink"])
-    c.rect(0, 0, 300, 120, COLORS["night"])
-    c.rect(8, 8, 284, 104, COLORS["line"])
-    c.rect(12, 12, 276, 96, COLORS["wall_2"])
-    c.rect(18, 18, 264, 84, COLORS["void"])
-    c.pixel_circle(60, 60, 35, COLORS["wall_2"], COLORS["line"])
-    c.pixel_circle(60, 60, 25, accent, COLORS["screen_dim"])
-    c.pixel_circle(60, 60, 12, COLORS["void"], COLORS["cream"])
-
-    if icon == "blog":
-        c.rect(48, 41, 25, 34, COLORS["paper"])
-        c.rect(54, 50, 13, 2, COLORS["line"])
-        c.rect(54, 57, 13, 2, COLORS["line"])
-        c.rect(54, 64, 9, 2, COLORS["line"])
-    elif icon == "github":
-        c.rect(46, 48, 29, 21, COLORS["ink"])
-        c.rect(50, 42, 6, 8, COLORS["cream"])
-        c.rect(65, 42, 6, 8, COLORS["cream"])
-        c.rect(54, 57, 4, 4, COLORS["cream"])
-        c.rect(64, 57, 4, 4, COLORS["cream"])
-        c.rect(57, 68, 9, 5, COLORS["cream"])
-    else:
-        c.diamond(60, 57, 19, COLORS["purple"], COLORS["cream"])
-        c.rect(57, 43, 6, 28, COLORS["void"])
-        c.rect(46, 54, 28, 6, COLORS["void"])
-
-    draw_sparkles(c, [(30, 28, "screen"), (91, 31, "gold"), (29, 88, "cream"), (92, 84, "screen")])
-    c.text(title, 118, 36, COLORS["cream"], 2)
-    c.text(subtitle, 119, 72, COLORS["screen"], 1)
-    c.rect(118, 92, 118, 4, COLORS["line"])
-    c.rect(118, 92, 62, 4, accent)
-    c.save_png(ASSETS / filename)
-
-
-def generate_portals() -> None:
-    generate_portal("portal-blog.png", "BLOG", "FIELD NOTES", COLORS["gold"], "blog")
-    generate_portal("portal-github.png", "GITHUB", "SOURCE VAULT", COLORS["teal"], "github")
-    generate_portal("portal-notes.png", "NOTES", "WORKBENCH", COLORS["purple"], "notes")
-
-
-def generate_quest_map(summary: dict) -> None:
-    c = Canvas(960, 300, COLORS["ink"])
-    c.rect(0, 0, 960, 300, COLORS["night"])
-    c.rect(20, 18, 920, 238, COLORS["wall"])
-    c.rect(32, 30, 896, 214, COLORS["void"])
-    c.rect(44, 42, 872, 190, "#0C1830")
-    draw_sparkles(
-        c,
-        [
-            (96, 72, "screen"),
-            (154, 184, "cream"),
-            (306, 74, "gold"),
-            (444, 196, "screen"),
-            (690, 64, "cream"),
-            (836, 178, "gold"),
-        ],
-    )
-    c.text("QUEST ROUTE", 76, 72, COLORS["cream"], 2)
-    c.text("SMALL TOOLS / GAME FEEL / PUBLIC NOTES", 76, 108, COLORS["screen"], 1)
-
-    points = [(142, 184), (286, 122), (436, 176), (610, 104), (780, 170)]
-    for (x0, y0), (x1, y1) in zip(points, points[1:]):
-        c.line(x0, y0, x1, y1, COLORS["screen_dim"])
-        c.line(x0, y0 + 1, x1, y1 + 1, COLORS["purple"])
-    for index, (x, y) in enumerate(points):
-        fill = [COLORS["rust"], COLORS["screen"], COLORS["green"], COLORS["purple"], COLORS["gold"]][index]
-        c.pixel_circle(x, y, 18, fill, COLORS["cream"])
-        c.diamond(x, y, 9, COLORS["void"], COLORS["line"])
-
-    labels = [
-        ("SYSTEMS", 96, 214),
-        ("GAME FEEL", 244, 88),
-        ("WEB TOOLS", 390, 208),
-        ("AUTOMATION", 556, 70),
-        ("NOTES", 746, 206),
+def generate_build_modes() -> None:
+    c = Canvas(960, 320, COLORS["paper"])
+    decorate_background(c)
+    panels = [
+        (38, "MAKE IT RUN", "SYSTEMS THAT HOLD TOGETHER", "run", "acid"),
+        (337, "MAKE IT FEEL", "LOOPS THAT FEEL ALIVE", "feel", "purple"),
+        (636, "MAKE IT USEFUL", "TOOLS WITH A HANDLE", "useful", "yellow"),
     ]
-    for label, x, y in labels:
-        c.text(label, x, y, COLORS["cream"], 1)
-
-    latest = truncate((summary["latest"][0].get("name") if summary["latest"] else "ready"), 20)
-    c.frame(584, 198, 284, 38, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-    c.text("NOW", 610, 210, COLORS["gold"], 1)
-    c.text(latest, 662, 210, COLORS["cream"], 1)
-    c.rect(824, 78, 34, 34, COLORS["wall_3"])
-    c.rect(834, 58, 14, 20, COLORS["green"])
-    c.rect(816, 112, 50, 6, COLORS["line"])
-    c.rect(404, 98, 58, 16, COLORS["wall_3"])
-    c.rect(414, 104, 32, 3, COLORS["screen"])
-    c.rect(470, 90, 30, 42, COLORS["wood_dark"])
-    c.rect(478, 98, 14, 14, COLORS["gold"])
-    c.rect(52, 242, 856, 4, COLORS["line"])
-    c.rect(52, 242, 612, 4, COLORS["purple"])
-    c.save_png(ASSETS / "quest-map.png")
+    for x, title, subtitle, mode, color in panels:
+        c.shadow_rect(x, 46, 286, 220, COLORS["cream"], 6)
+        c.rect(x + 16, 68, 254, 36, COLORS[color])
+        c.text(title, x + 30, 78, COLORS["ink"], 2)
+        draw_mode_icon(c, x + 100, 126, mode)
+        c.centered_text(subtitle, x + 143, 224, COLORS["ink"], 1)
+        c.rect(x + 24, 246, 238, 6, COLORS["ink"])
+    c.save_png(ASSETS / "build-modes.png")
 
 
-def generate_footer_sign(summary: dict) -> None:
-    c = Canvas(960, 150, COLORS["ink"])
-    c.rect(0, 0, 960, 150, COLORS["night"])
-    c.rect(48, 42, 864, 52, COLORS["line"])
-    c.rect(56, 34, 848, 52, COLORS["wood_dark"])
-    c.rect(68, 44, 824, 32, COLORS["wood"])
-    c.text("SAVE POINT REACHED", 108, 55, COLORS["paper"], 2)
-    c.text("LD000", 700, 55, COLORS["gold"], 2)
-    c.pixel_circle(78, 60, 18, COLORS["screen"], COLORS["cream"])
-    c.diamond(858, 60, 18, COLORS["purple"], COLORS["cream"])
-    c.text(f"LAST SYNC {summary['updated']}", 354, 111, COLORS["muted"], 1)
-    c.save_png(ASSETS / "footer-sign.png")
+def project_art(c: Canvas, repo: str, x: int, y: int, accent: str) -> None:
+    if repo == "bevy-tetris":
+        blocks = [(0, 0, "red"), (22, 0, "yellow"), (44, 0, "cyan"), (22, 22, "purple"), (44, 22, "acid")]
+        for dx, dy, color in blocks:
+            c.outline_rect(x + dx, y + dy, 22, 22, COLORS[color], COLORS["ink"], 3)
+        c.rect(x + 88, y + 6, 72, 66, COLORS["ink"])
+        c.rect(x + 96, y + 14, 56, 50, COLORS["cream"])
+        c.rect(x + 106, y + 28, 36, 8, COLORS["red"])
+    elif repo == "redis-rust":
+        for index in range(3):
+            c.outline_rect(x + index * 34, y + index * 18, 112, 24, COLORS["rust"], COLORS["ink"], 4)
+        c.circle(x + 166, y + 48, 28, COLORS["yellow"], COLORS["ink"], 5)
+        c.rect(x + 152, y + 35, 28, 8, COLORS["ink"])
+        c.rect(x + 152, y + 51, 28, 8, COLORS["ink"])
+    elif repo == "spider":
+        c.circle(x + 78, y + 42, 32, COLORS["cyan"], COLORS["ink"], 5)
+        for dx, dy in [(-60, -28), (-62, 12), (62, -28), (64, 12)]:
+            c.line(x + 78, y + 42, x + 78 + dx, y + 42 + dy, COLORS["ink"], 5)
+        c.rect(x + 130, y + 14, 70, 60, COLORS["cream"])
+        c.rect(x + 142, y + 28, 44, 6, COLORS["red"])
+        c.rect(x + 142, y + 44, 30, 6, COLORS["purple"])
+    else:
+        c.outline_rect(x + 12, y + 4, 96, 76, COLORS["yellow"], COLORS["ink"], 5)
+        c.rect(x + 28, y + 24, 62, 5, COLORS["ink"])
+        c.rect(x + 28, y + 40, 48, 5, COLORS["ink"])
+        c.rect(x + 130, y + 12, 64, 58, COLORS[accent])
+        c.rect(x + 145, y + 26, 34, 6, COLORS["ink"])
+        c.rect(x + 145, y + 42, 34, 6, COLORS["ink"])
 
 
-def generate_project_cards() -> None:
-    for index, (repo, title, subtitle) in enumerate(PROJECTS):
-        c = Canvas(640, 190, COLORS["ink"])
-        c.rect(0, 0, 640, 190, COLORS["night"])
-        c.frame(26, 22, 588, 132, COLORS["wall_2"], COLORS["line"], COLORS["void"])
-        draw_sparkles(c, [(40, 34, "screen"), (586, 42, "gold"), (604, 144, "cream")])
-        if index % 2 == 0:
-            c.rect(58, 54, 100, 64, COLORS["wood_dark"])
-            c.rect(72, 40, 72, 24, COLORS["gold"])
-            c.rect(80, 72, 54, 32, COLORS["ink"])
-            c.rect(92, 84, 30, 6, COLORS["screen"])
-            c.diamond(146, 104, 16, COLORS["purple"], COLORS["line"])
-        else:
-            c.rect(64, 42, 96, 86, COLORS["wall_3"])
-            c.rect(76, 54, 72, 28, COLORS["ink"])
-            c.rect(92, 92, 40, 24, COLORS["void"])
-            c.rect(88, 60, 44, 6, COLORS["screen"])
-            c.pixel_circle(150, 111, 15, COLORS["gold"], COLORS["line"])
-        c.text(f"0{index + 1}", 200, 52, COLORS["gold"], 2)
-        c.text(title, 250, 50, COLORS["cream"], 2)
-        c.text(subtitle, 252, 90, COLORS["screen"], 1)
-        c.text(repo, 252, 112, COLORS["paper"], 1)
-        c.rect(74, 146, 496, 4, COLORS["line"])
-        c.rect(74, 146, 110 + index * 74, 4, COLORS["gold"])
+def generate_project_cards(summary: dict) -> None:
+    for repo, meta in PROJECTS.items():
+        c = Canvas(640, 220, COLORS["paper"])
+        decorate_background(c)
+        c.shadow_rect(24, 22, 592, 166, COLORS["cream"], 6)
+        punch_holes(c, 24, 22, 592)
+        c.circle(84, 78, 32, COLORS[meta["accent"]], COLORS["ink"], 5)
+        c.centered_text(meta["number"], 84, 66, COLORS["ink"], 2)
+        c.rect(136, 50, 246, 42, COLORS[meta["accent"]])
+        c.text(repo, 154, 62, COLORS["ink"], 2)
+        c.text(meta["line"], 154, 106, COLORS["muted"], 1)
+        project_art(c, repo, 398, 68, meta["accent"])
+
+        telemetry = summary["projects"][repo]
+        c.rect(56, 162, 528, 34, COLORS["ink"])
+        c.text(f"LANG {telemetry['language']}", 72, 174, COLORS["cream"], 1)
+        c.text(f"STARS {telemetry['stars']}", 254, 174, COLORS["cream"], 1)
+        c.text(f"UPDATED {telemetry['updated_short']}", 410, 174, COLORS["cream"], 1)
         c.save_png(ASSETS / f"project-{repo}.png")
 
 
@@ -678,13 +511,10 @@ def main() -> int:
         summary = fallback_summary()
 
     ASSETS.mkdir(parents=True, exist_ok=True)
-    generate_status(summary)
-    generate_inventory()
-    generate_portals()
-    generate_quest_map(summary)
-    generate_project_cards()
-    generate_footer_sign(summary)
-    print(f"Generated supporting PNG profile assets for {USERNAME} at {summary['updated']}")
+    generate_hero(summary)
+    generate_build_modes()
+    generate_project_cards(summary)
+    print(f"Generated playable systems PNG profile assets for {USERNAME} at {summary['updated']}")
     return 0
 
 

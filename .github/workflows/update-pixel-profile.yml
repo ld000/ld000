@@ -1,4 +1,4 @@
-name: Update pixel profile
+name: Update playable systems profile
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Generate pixel profile assets
+      - name: Generate playable systems profile assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USERNAME: ld000
@@ -28,13 +28,13 @@ jobs:
 
       - name: Commit updated assets
         run: |
-          if git diff --quiet -- assets/status-board.png assets/inventory.png assets/portal-*.png assets/quest-map.png assets/footer-sign.png assets/project-*.png; then
-            echo "Pixel profile assets are already up to date."
+          if git diff --quiet -- assets/hero-playable-systems.png assets/build-modes.png assets/project-bevy-tetris.png assets/project-redis-rust.png assets/project-spider.png assets/project-blog-hugo.png; then
+            echo "Playable systems profile assets are already up to date."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/status-board.png assets/inventory.png assets/portal-*.png assets/quest-map.png assets/footer-sign.png assets/project-*.png
-          git commit -m "Update pixel profile assets"
+          git add assets/hero-playable-systems.png assets/build-modes.png assets/project-bevy-tetris.png assets/project-redis-rust.png assets/project-spider.png assets/project-blog-hugo.png
+          git commit -m "Update playable systems profile assets"
           git push
